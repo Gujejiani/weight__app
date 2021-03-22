@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <form (ngSubmit)="onSubmit()" #f="ngForm" class="form">
+    <h3 class="form__title">Please Login</h3>
+    <div ngModelGroup="form" #form="ngModelGroup">
+      <div class="form__group">
+        <label for="email">Email</label>
+        <input
+          name="email"
+          ngModel
+          email
+          type="text"
+          class="form__group__input"
+        />
+      </div>
+      <div class="form__group">
+        <label for="password">Password</label>
+        <input
+          ngModel
+          name="password"
+          type="password"
+          class="form__group__input"
+        />
+      </div>
+    </div>
+    <button type="submit" class="form__button form__button--primary">
+      SUBMIT
+    </button>
+
+    <label class="form__register"
+      >don't have an account?
+      <a routerLink="/registration" class="form__register--title"
+        >Register</a
+      ></label
+    >
+  </form>
+</div>

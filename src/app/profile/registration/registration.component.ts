@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { from } from 'rxjs';
-import { User } from '../shared/user.modal';
+import { User } from '../user.modal';
 
 @Component({
   selector: 'app-registration',

@@ -1,0 +1,36 @@
+<header class="header">
+  <div class="nav">
+    <a routerLink="">
+      <h3 class="nav__title">Weight__APP</h3>
+    </a>
+    <ul class="nav__list">
+      <li class="nav__list__li">
+        <a
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLink=""
+          class="nav__list__li__link"
+          routerLinkActive="nav__list__li__link--active"
+          >Home</a
+        >
+      </li>
+      <li *ngIf="!loggedIn; else logout" class="nav__list__li">
+        <a
+          routerLink="login"
+          class="nav__list__li__link"
+          routerLinkActive="nav__list__li__link--active"
+          >Login</a
+        >
+      </li>
+      <ng-template #logout>
+        <li class="nav__list__li">
+          <a
+            routerLink="login"
+            class="nav__list__li__link"
+            routerLinkActive="nav__list__li__link--active"
+            >Log Out</a
+          >
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</header>
