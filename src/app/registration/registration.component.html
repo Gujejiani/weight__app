@@ -1,0 +1,170 @@
+<div class="wrapper">
+  <form (ngSubmit)="onSubmit()" #form="ngForm" class="form">
+    <h2 class="form__title">PLEASE REGISTER TO JOIN</h2>
+    <div class="form-wrapper" #formData="ngModelGroup" ngModelGroup="formData">
+      <div class="form__group">
+        <label for="name">Enter Name</label>
+        <input
+          type="text"
+          placeholder="Enter Name"
+          id="name"
+          class="form__group__input"
+          ngModel
+          name="username"
+          required
+          minlength="4"
+          maxlength="10"
+          #name="ngModel"
+        />
+        <span
+          *ngIf="!name.valid && name.dirty && name.viewModel"
+          class="form-help"
+          >username should contain min 4 and max 10 characters</span
+        >
+      </div>
+      <div class="form__group">
+        <label for="email">Enter Email</label>
+        <input
+          type="email"
+          placeholder="Enter Email"
+          id="email"
+          class="form__group__input"
+          ngModel
+          name="email"
+          required
+          email
+          #email="ngModel"
+        />
+        <!-- <span *ngIf="email.viewModel === 'kakha'">email is not valid </span> -->
+      </div>
+      <div class="form__group">
+        <label for="password">Enter Password</label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          id="password"
+          class="form__group__input"
+          ngModel
+          name="password"
+          required
+          minlength="4"
+          maxlength="10"
+          #password="ngModel"
+        />
+        <span
+          *ngIf="!password.valid && password.dirty && password.viewModel"
+          class="form-help"
+          >password should contain min 4 and max 10 letters
+        </span>
+      </div>
+      <div class="form__group">
+        <label for="confirmPassword">ConfirmPassword</label>
+        <input
+          type="password"
+          placeholder="Enter confirmPassword"
+          id="confirmPassword"
+          class="form__group__input"
+          ngModel
+          name="confirmPassword"
+          required
+          minlength="4"
+          maxlength="10"
+          #confirmPassword="ngModel"
+          (input)="confirmingPassword($event)"
+          [ngStyle]="{
+            'border-color':
+              confirmPassword.touched && !passwordConfirmed ? 'red' : 'green'
+          }"
+        />
+        <span
+          *ngIf="confirmPassword.dirty && !passwordConfirmed"
+          class="form-help"
+          >passwords doesn't match
+        </span>
+      </div>
+      <div class="form__group">
+        <label for="weight">Desired Weight</label>
+        <input
+          type="text"
+          placeholder="Enter Desired Weight"
+          id="weight"
+          class="form__group__input"
+          ngModel
+          name="desiredWeight"
+          required
+          pattern="^[1-9]+[0-9]*$"
+          #desiredWeight="ngModel"
+          minlength="2"
+          maxlength="5"
+        />
+        <span
+          *ngIf="
+            !desiredWeight.valid &&
+            desiredWeight.dirty &&
+            desiredWeight.viewModel
+          "
+          class="form-help"
+          >min length is 2 and letters should be alphanumeric</span
+        >
+      </div>
+      <div class="form__group">
+        <label for="meal">Desired Meal calories per day</label>
+        <input
+          type="text"
+          placeholder="Enter Meal Calories"
+          id="meal"
+          class="form__group__input"
+          name="desiredMeal"
+          ngModel
+          required
+          minlength="2"
+          maxlength="5"
+          pattern="^[1-9]+[0-9]*$"
+          #desiredMeal="ngModel"
+        />
+        <span
+          *ngIf="
+            !desiredMeal.valid && desiredMeal.dirty && desiredMeal.viewModel
+          "
+          class="form-help"
+          >min length is 2 and letters should be alphanumeric</span
+        >
+      </div>
+      <div class="form__group">
+        <label for="activity">Desired Activity calories per day</label>
+        <input
+          type="text"
+          placeholder="Enter Activity Calories"
+          id="activity"
+          class="form__group__input"
+          name="desiredActivity"
+          ngModel
+          pattern="^[1-9]+[0-9]*$"
+          #desiredActivity="ngModel"
+          required
+          minlength="2"
+          maxlength="5"
+        />
+        <span
+          *ngIf="
+            !desiredActivity.valid &&
+            desiredActivity.dirty &&
+            desiredActivity.viewModel
+          "
+          class="form-help"
+          >min length is 2 and letters should be alphanumeric</span
+        >
+      </div>
+      <button
+        [ngClass]="{ 'form__button--invalid': !form.valid }"
+        [disabled]="!form.valid && passwordConfirmed"
+        type="submit"
+        class="form__button form__button--primary"
+      >
+        SUBMIT
+      </button>
+    </div>
+  </form>
+</div>
+<!-- [disabled]="!form.valid" -->
+<!-- [ngClass]="{ 'form__button--invalid': !form.valid }" -->
