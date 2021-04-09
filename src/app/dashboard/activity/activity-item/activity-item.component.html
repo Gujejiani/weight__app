@@ -1,0 +1,26 @@
+<div class="modal-wrapper" [ngClass]="{ 'modal-wrapper--show': showModal }">
+  <ul
+    *ngIf="activities.length > 0; else message"
+    class="titles activity--color"
+  >
+    <li class="titles__title">date</li>
+    <li class="titles__title">name</li>
+    <li class="titles__title">calories</li>
+  </ul>
+
+  <ng-template #message>
+    <ul class="titles titles--message activity--color">
+      <span class="empty--message">Table is Empty</span>
+    </ul>
+  </ng-template>
+
+  <ul
+    *ngFor="let activity of activities"
+    (click)="onActivityClick(activity)"
+    class="fields activity--color"
+  >
+    <li class="fields__field">{{ activity.date }}</li>
+    <li class="fields__field">{{ activity.type }}</li>
+    <li class="fields__field">{{ activity.calories }}</li>
+  </ul>
+</div>

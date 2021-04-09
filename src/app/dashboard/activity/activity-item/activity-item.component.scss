@@ -1,0 +1,8 @@
+.activity--color {
+  background-color: #75423b;
+}
+.fields {
+  &:hover {
+    background-color: lighten($color: #75423b, $amount: 10);
+  }
+}

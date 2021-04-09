@@ -1,0 +1,145 @@
+<div
+  class="overlay"
+  (click)="hideModal()"
+  [ngClass]="{ 'overlay--show': showModal }"
+></div>
+<div class="wrapper">
+  <h3 class="wrapper__title">Add Your Weight {{ userName }}</h3>
+  <i routerLink="/dashboard" class="fas fa-arrow-left icon fa-xl fa-2x"></i>
+  <div class="weight">
+    <app-weight-item
+      *ngIf="!desiredMode"
+      (weightClicked)="weightClicked($event)"
+      [weights]="weights"
+      [showModal]="showModal"
+    ></app-weight-item>
+    <form (ngSubmit)="onSubmit()" #f="ngForm" class="weight__form">
+      <label class="weight__form__desired" *ngIf="!desiredMode"
+        >Your Desired Weight is {{ desiredWeight }}</label
+      >
+      <div class="weight__form__icon">
+        <svg
+          width="30px"
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="balance-scale"
+          class="svg-inline--fa fa-balance-scale fa-w-20"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 512"
+        >
+          <path
+            fill="currentColor"
+            d="M256 336h-.02c0-16.18 1.34-8.73-85.05-181.51-17.65-35.29-68.19-35.36-85.87 0C-2.06 328.75.02 320.33.02 336H0c0 44.18 57.31 80 128 80s128-35.82 128-80zM128 176l72 144H56l72-144zm511.98 160c0-16.18 1.34-8.73-85.05-181.51-17.65-35.29-68.19-35.36-85.87 0-87.12 174.26-85.04 165.84-85.04 181.51H384c0 44.18 57.31 80 128 80s128-35.82 128-80h-.02zM440 320l72-144 72 144H440zm88 128H352V153.25c23.51-10.29 41.16-31.48 46.39-57.25H528c8.84 0 16-7.16 16-16V48c0-8.84-7.16-16-16-16H383.64C369.04 12.68 346.09 0 320 0s-49.04 12.68-63.64 32H112c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h129.61c5.23 25.76 22.87 46.96 46.39 57.25V448H112c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h416c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"
+          ></path>
+        </svg>
+      </div>
+
+      <label class="weight__form__title">
+        {{ !desiredMode ? " Enter Your Weight" : "Enter Your Desired Weight" }}
+      </label>
+      <div *ngIf="!desiredMode" class="weight__form__group">
+        <input
+          [(ngModel)]="prevWeight"
+          placeholder="Enter your your Weight "
+          class="weight__form__input"
+          type="text"
+          required
+          pattern="^[1-9]+[0-9]*$"
+          name="weight"
+          #name="ngModel"
+          minlength="2"
+          maxlength="3"
+        />
+        <span class="weight__form__invalid" *ngIf="f.dirty && !name.valid"
+          >Invalid Value</span
+        >
+      </div>
+      <div *ngIf="desiredMode" class="weight__form__group">
+        <input
+          [(ngModel)]="prevDesired"
+          placeholder="Enter your desired weight "
+          class="weight__form__input"
+          type="text"
+          required
+          pattern="^[1-9]+[0-9]*$"
+          name="weight"
+          #name="ngModel"
+          minlength="2"
+          maxlength="3"
+        />
+        <span class="weight__form__invalid" *ngIf="f.dirty && !name.valid"
+          >Invalid Value</span
+        >
+      </div>
+      <label *ngIf="!desiredMode" class="weight__form__title">Enter Date</label>
+
+      <div class="weight__form__group">
+        <input
+          *ngIf="!desiredMode"
+          class="weight__form__input weight__form__input--date"
+          ngModel
+          required
+          type="date"
+          id="date"
+          name="date"
+          minlength="2"
+          #weight
+        />
+      </div>
+      <div class="weight__form__buttons">
+        <button
+          *ngIf="desiredMode"
+          [ngClass]="{ 'weight__form__button--invalid': !f.valid }"
+          [disabled]="!f.valid"
+          class="weight__form__button"
+          type="button"
+          (click)="saveDesired()"
+        >
+          Save
+        </button>
+        <button
+          *ngIf="!desiredMode"
+          [ngClass]="{ 'weight__form__button--invalid': !f.valid }"
+          [disabled]="!f.valid"
+          class="weight__form__button"
+          type="submit"
+        >
+          Add Weight
+        </button>
+        <button
+          *ngIf="!desiredMode"
+          (click)="onUpdate()"
+          [disabled]="!f.valid"
+          [ngStyle]="{ display: editMode ? 'inline-block' : 'none' }"
+          class="weight__form__button weight__form__button--update"
+          type="button"
+        >
+          update
+        </button>
+        <button
+          *ngIf="!desiredMode"
+          (click)="onDelete()"
+          [disabled]="!f.valid"
+          [ngStyle]="{ display: editMode ? 'inline-block' : 'none' }"
+          class="weight__form__button weight__form__button--delete"
+          type="button"
+        >
+          delete
+        </button>
+      </div>
+      <button
+        *ngIf="!desiredMode"
+        (click)="onWeightModal()"
+        type="button"
+        class="btn__counter"
+      >
+        Weight ({{ counter }})
+      </button>
+    </form>
+    <span class="already--added" *ngIf="alreadyExists"
+      >this date is already added, please click it to edit</span
+    >
+  </div>
+</div>

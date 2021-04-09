@@ -1,0 +1,24 @@
+<div class="modal-wrapper" [ngClass]="{ 'modal-wrapper--show': showModal }">
+  <ul
+    *ngIf="weights.length > 0; else message"
+    class="titles weight--background"
+  >
+    <li class="titles__title">date</li>
+    <li class="titles__title">weight</li>
+  </ul>
+  <ng-template #message>
+    <ul class="titles titles--message weight--background">
+      <span class="empty--message">Table is Empty</span>
+    </ul>
+  </ng-template>
+
+  <ul
+    *ngFor="let weight of weights"
+    (click)="onWeightClicked(weight)"
+    class="fields weight--background weight--field"
+  >
+    <li class="fields__field">{{ weight.date }}</li>
+
+    <li class="fields__field">{{ weight.weight }}kg</li>
+  </ul>
+</div>

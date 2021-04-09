@@ -1,0 +1,12 @@
+.not-found {
+  margin-top: 150px;
+  color: #000;
+  text-align: center;
+  &__btn {
+    padding: 5px;
+    background-color: rgb(26, 120, 160);
+    cursor: pointer;
+    margin-top: 10px;
+    color: #fff;
+  }
+}

@@ -15,15 +15,12 @@ body {
   width: 100%;
   height: 100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: rgb(231, 235, 234);
 }
 
-@mixin primary {
-  background-color: #0c6438;
-  color: #fff;
-}
 .form__button {
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
   width: 100%;
 
   border-radius: 3px;
@@ -40,9 +37,227 @@ body {
 }
 
 input.ng-touched.ng-invalid {
-  border-color: rgb(211, 6, 6);
+  border-color: rgb(126, 36, 36);
 }
 .form-help {
+  position: absolute;
+  bottom: -10px;
   font-size: 13px;
   color: rgb(133, 32, 32);
+}
+.wrapper {
+  padding-top: 100px;
+
+  color: #fff;
+  &__title {
+    display: inline-block;
+    color: #000;
+    margin-bottom: 30px;
+  }
+  .weight {
+    background-image: linear-gradient(#53b8cf, #2f7889);
+    max-width: 500px;
+    margin: auto;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 200px;
+    position: relative;
+    overflow: auto;
+
+    &--meal {
+      background-image: linear-gradient(#a26fba, #805394);
+    }
+    &--activity {
+      background-image: linear-gradient(#d07365, #7f4238);
+    }
+
+    &__form {
+      display: flex;
+      width: 100%;
+      margin: auto;
+      flex-direction: column;
+      height: 100%;
+      &__desired {
+        text-align: right;
+      }
+      &__invalid {
+        position: absolute;
+        bottom: -18px;
+        font-size: 13px;
+        color: rgb(138, 25, 25);
+      }
+      &__group {
+        position: relative;
+        margin: 15px 0;
+        display: flex;
+        flex-direction: column;
+      }
+      &__input {
+        padding: 8px 5px;
+        width: 100%;
+        margin: auto;
+        outline: none;
+        text-align: center;
+      }
+      &__buttons {
+        display: flex;
+      }
+      &__button {
+        padding: 7px 0;
+        margin-top: 10px;
+        color: #fff;
+        width: 100%;
+        background-color: rgba(31, 130, 31, 0.945);
+        border: 1px solid rgba(165, 160, 160, 0.2);
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+        &--update {
+          background: rgb(15, 89, 126);
+        }
+        &--delete {
+          background: rgb(120, 37, 37);
+        }
+        &--invalid {
+          background-color: gray;
+          cursor: not-allowed;
+        }
+      }
+      &__icon {
+        position: relative;
+        margin: 15px 0;
+
+        max-width: 30px;
+      }
+    }
+  }
+}
+
+.table {
+  max-width: 500px;
+  margin: auto;
+  background-color: #14262a;
+
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+  height: 100%;
+  &__titles {
+    display: flex;
+  }
+  margin-top: 20px;
+  &__title {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+  }
+  &__data {
+    display: flex;
+    background-color: darken($color: #53b8cf, $amount: 40);
+    &:hover {
+      cursor: pointer;
+      background: lighten($color: #213c42, $amount: 10);
+    }
+
+    &__li {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+    }
+  }
+}
+.already--added {
+  font-size: 14px;
+  color: rgb(150, 18, 18);
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: black;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  visibility: hidden;
+  &--show {
+    opacity: 0.8;
+    visibility: visible;
+  }
+}
+
+.btn__counter {
+  position: absolute;
+  top: 0;
+  padding: 8px;
+  left: 0;
+  color: #fff;
+  background-color: #0c7476;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  border: none;
+}
+
+// modal
+.modal-wrapper {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  z-index: 22;
+  background: darken($color: #a26fba, $amount: 30);
+  padding: 0;
+  max-height: 300px;
+  overflow: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  &--show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.titles {
+  position: sticky;
+  top: 0;
+  display: flex;
+  background: darken($color: #a26fba, $amount: 30);
+  border-bottom: 1px solid #fff;
+  &--message {
+    border-bottom: none;
+  }
+  &__title {
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+  }
+}
+.fields {
+  display: flex;
+  padding: 8px 0;
+
+  &:hover {
+    background: darken($color: #a26fba, $amount: 2);
+    cursor: pointer;
+  }
+
+  &__field {
+    flex: 1;
+    text-align: center;
+  }
+}
+.empty--message {
+  padding: 5px;
+  text-align: center;
+
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  right: 100px;
+  color: rgb(11, 133, 147);
+  cursor: pointer;
 }

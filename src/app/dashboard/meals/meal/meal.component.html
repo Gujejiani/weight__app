@@ -1,0 +1,18 @@
+<div class="modal-wrapper" [ngClass]="{ 'modal-wrapper--show': showModal }">
+  <ul *ngIf="meals.length > 0; else message" class="titles">
+    <li class="titles__title">date</li>
+    <li class="titles__title">name</li>
+    <li class="titles__title">calories</li>
+  </ul>
+  <ng-template #message>
+    <ul class="titles titles--message">
+      <span class="empty--message">Table is Empty</span>
+    </ul>
+  </ng-template>
+
+  <ul *ngFor="let meal of meals" (click)="onMealClicked(meal)" class="fields">
+    <li class="fields__field">{{ meal.date }}</li>
+    <li class="fields__field">{{ meal.name }}</li>
+    <li class="fields__field">{{ meal.calories }}</li>
+  </ul>
+</div>

@@ -24,7 +24,7 @@
       <ng-template #logout>
         <li class="nav__list__li">
           <a
-            routerLink="login"
+            (click)="onLogout()"
             class="nav__list__li__link"
             routerLinkActive="nav__list__li__link--active"
             >Log Out</a

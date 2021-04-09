@@ -1,0 +1,9 @@
+.weight--background {
+  background: rgb(6, 111, 117);
+}
+.weight--field {
+  background-color: darken($color: rgb(6, 111, 117), $amount: 10);
+  &:hover {
+    background-color: darken($color: rgb(6, 111, 117), $amount: 5);
+  }
+}

@@ -1,28 +1,40 @@
 <div class="wrapper">
   <form (ngSubmit)="onSubmit()" #f="ngForm" class="form">
     <h3 class="form__title">Please Login</h3>
+    <span class="form__message">{{ message }}</span>
     <div ngModelGroup="form" #form="ngModelGroup">
       <div class="form__group">
         <label for="email">Email</label>
+
         <input
+          (click)="onClick()"
           name="email"
           ngModel
           email
           type="text"
           class="form__group__input"
+          required
         />
       </div>
       <div class="form__group">
         <label for="password">Password</label>
         <input
+          (click)="onClick()"
           ngModel
           name="password"
           type="password"
           class="form__group__input"
+          required
         />
       </div>
     </div>
-    <button type="submit" class="form__button form__button--primary">
+    <button
+      [ngClass]="{
+        'form__button--invalid': !form.valid
+      }"
+      type="submit"
+      class="form__button form__button--primary"
+    >
       SUBMIT
     </button>
 
