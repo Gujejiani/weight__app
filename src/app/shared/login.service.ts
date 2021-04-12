@@ -16,11 +16,11 @@ export class LoginService {
   ) {}
   login(email: string, password: string) {
     const registered = this.registrationService.getUserData(email);
-    console.log(registered);
+
     if (registered) {
       if (registered.email === email && registered.password === password) {
-        this.userLoggedIn.next(true);
         this.loggedIn = true;
+
         this.userService.userLoggedIn(
           new User(
             registered.name,
@@ -35,6 +35,7 @@ export class LoginService {
           )
         );
         this.loginTimerStart();
+        this.userLoggedIn.next(true);
         return {
           login: true,
           message: 'user logged in',
@@ -57,6 +58,7 @@ export class LoginService {
   logOut() {
     this.loggedIn = false;
     this.userService.userLogOut();
+    clearTimeout(this.loginTimer);
   }
   isAuthenticated() {
     return this.loggedIn;
@@ -73,9 +75,8 @@ export class LoginService {
 
   loginTimerStart() {
     this.loginTimer = setTimeout(() => {
-      console.log('timer end');
       this.loggedIn = false;
       this.userService.userLogOut();
-    }, 6000);
+    }, 60000);
   }
 }

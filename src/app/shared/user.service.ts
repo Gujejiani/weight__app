@@ -25,11 +25,9 @@ export class UserService {
   }
   updateWeight(id: number, newWeight: Weight) {
     this.registrationService.updateUsersData(this.user.email, this.user);
-    console.log(this.user.weights);
   }
 
   updateUser() {
-    console.log(this.user);
     this.registrationService.updateUsersData(this.user.email, this.user);
   }
 

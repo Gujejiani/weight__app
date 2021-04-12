@@ -1,12 +1,8 @@
-import { CompileShallowModuleMetadata } from '@angular/compiler';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ɵɵsetComponentScope,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { CanComponentDeactivate } from 'src/app/shared/saved-guard/saved-guard.service';
 import { UserService } from 'src/app/shared/user.service';
 import { Meal } from './meal.modal';
 import { MealsService } from './meal.service';
@@ -16,7 +12,7 @@ import { MealsService } from './meal.service';
   templateUrl: './meals.component.html',
   styleUrls: ['./meals.component.scss'],
 })
-export class MealsComponent implements OnInit {
+export class MealsComponent implements OnInit, CanComponentDeactivate {
   @ViewChild('f') ngForm: NgForm;
   showMeals: boolean = false;
   meals: Meal[] = [];
@@ -26,6 +22,7 @@ export class MealsComponent implements OnInit {
   editMode: boolean = false;
   desiredMealMode: boolean = false;
   prevDesiredMeal: number = 0;
+  changesSaved: boolean = true;
   constructor(
     private userService: UserService,
     public mealService: MealsService,
@@ -64,15 +61,12 @@ export class MealsComponent implements OnInit {
     this.counter = this.mealService.meals.length;
     this.ngForm.reset();
     this.editMode = false;
-
-    console.log(this.meals);
   }
   onMealModal() {
     this.showMeals = !this.showMeals;
   }
   hideModal() {
     this.showMeals = false;
-    console.log('clicked');
   }
   updateMeal() {
     this.meal.date = this.ngForm.value.date;
@@ -82,6 +76,8 @@ export class MealsComponent implements OnInit {
 
     this.ngForm.reset();
     this.editMode = false;
+    this.router.navigate(['dashboard']);
+    this.changesSaved = true;
   }
   deleteMeal() {
     this.mealService.deleteMeal(this.meal.id);
@@ -105,5 +101,21 @@ export class MealsComponent implements OnInit {
     this.meal = meal;
     this.hideModal();
     this.editMode = true;
+    this.changesSaved = false;
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.changesSaved) {
+      return true;
+    }
+
+    if (
+      !this.changesSaved &&
+      this.meal.calories !== this.ngForm.value.calories
+    ) {
+      return confirm('do you want to discard changes?');
+    } else {
+      return true;
+    }
   }
 }

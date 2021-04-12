@@ -1,6 +1,14 @@
+<div
+  class="history-overlay"
+  (click)="onHistoryToggle()"
+  [ngClass]="{ 'history-overlay--show': showUserHistory }"
+></div>
 <div class="wrapper" [ngClass]="{ 'wrapper--show': loggedIn }">
   <h3 class="dashboard__title">Welcome Back {{ user }}</h3>
+  <button class="dashboard__table" (click)="onHistoryToggle()">HISTORY</button>
+
   <div class="dashboard">
+    <app-history [showHistory]="showUserHistory"></app-history>
     <div class="dashboard__card">
       <label class="dashboard__date">{{ date }}</label>
       <svg

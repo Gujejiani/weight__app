@@ -11,6 +11,7 @@ import { LoginComponent } from './profile/login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './profile/registration/registration.component';
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
+import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
     path: 'dashboard/weight/:current',
     canActivate: [AuthGuard],
     component: WeightComponent,
+    canDeactivate: [CanDeactivateGuard],
   },
   {
     path: 'dashboard/weight',
@@ -32,12 +34,14 @@ const routes: Routes = [
     path: 'dashboard/meal',
     canActivate: [AuthGuard],
     component: MealsComponent,
+    canDeactivate: [CanDeactivateGuard],
   },
 
   {
     path: 'dashboard/activity',
     canActivate: [AuthGuard],
     component: ActivityComponent,
+    canDeactivate: [CanDeactivateGuard],
   },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/not-found' },

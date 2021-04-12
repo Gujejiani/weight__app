@@ -4,13 +4,12 @@
       <h3 class="nav__title">Weight__APP</h3>
     </a>
     <ul class="nav__list">
-      <li class="nav__list__li">
+      <li *ngIf="loggedIn" class="nav__list__li">
         <a
-          [routerLinkActiveOptions]="{ exact: true }"
-          routerLink=""
-          class="nav__list__li__link"
+          routerLink="/dashboard"
+          class="nav__list__li__link nav__list__li__link--dashboard"
           routerLinkActive="nav__list__li__link--active"
-          >Home</a
+          >Dashboard</a
         >
       </li>
       <li *ngIf="!loggedIn; else logout" class="nav__list__li">
@@ -23,12 +22,7 @@
       </li>
       <ng-template #logout>
         <li class="nav__list__li">
-          <a
-            (click)="onLogout()"
-            class="nav__list__li__link"
-            routerLinkActive="nav__list__li__link--active"
-            >Log Out</a
-          >
+          <a (click)="onLogout()" class="nav__list__li__link">Log Out</a>
         </li>
       </ng-template>
     </ul>

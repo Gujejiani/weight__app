@@ -7,7 +7,7 @@ export class RegistrationService {
   constructor() {}
   userRegistered(user: User) {
     this.users.push(user);
-    console.log(this.users);
+
     this.saveToLocalStorage();
   }
 

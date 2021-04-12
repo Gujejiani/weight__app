@@ -17,6 +17,8 @@ import { ActivityComponent } from './dashboard/activity/activity.component';
 import { ActivityItemComponent } from './dashboard/activity/activity-item/activity-item.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
+import { HistoryComponent } from './dashboard/history/history.component';
+import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
 
 @NgModule({
   declarations: [
@@ -34,9 +36,10 @@ import { AuthGuard } from './shared/auth-guard/auth-guard.service';
     ActivityComponent,
     ActivityItemComponent,
     PageNotFoundComponent,
+    HistoryComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [AuthGuard],
+  providers: [AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

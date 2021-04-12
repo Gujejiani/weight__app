@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { LoginService } from '../shared/login.service';
 
@@ -10,12 +11,15 @@ import { LoginService } from '../shared/login.service';
 })
 export class HeaderComponent implements OnInit {
   loggedIn: boolean;
+  subscription: Subscription;
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loginService.userLoggedIn.subscribe((loggedIn: boolean) => {
-      this.loggedIn = loggedIn;
-    });
+    this.subscription = this.loginService.userLoggedIn.subscribe(
+      (loggedIn: boolean) => {
+        this.loggedIn = loggedIn;
+      }
+    );
     this.loggedIn = this.loginService.loggedIn;
   }
 
@@ -23,5 +27,6 @@ export class HeaderComponent implements OnInit {
     this.loggedIn = false;
     this.loginService.logOut();
     this.router.navigate(['']);
+    this.subscription.unsubscribe();
   }
 }

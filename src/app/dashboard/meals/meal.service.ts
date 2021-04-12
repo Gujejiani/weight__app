@@ -27,13 +27,15 @@ export class MealsService {
     const mealIndex = this.meals.findIndex((meal) => meal.id === id);
     this.meals.splice(mealIndex, 1);
     this.updateMeals();
-    console.log('meal deleted');
   }
 
-  getTodayTotalMealCalories() {
+  getTodayTotalMealCalories(givenDate?) {
     let total: number = 0;
 
-    const todayDate = this.userService.getCurrentDate();
+    const todayDate = !givenDate
+      ? this.userService.getCurrentDate()
+      : givenDate;
+
     this.meals.forEach((meal) => {
       if (String(meal.date) === todayDate) {
         total += +meal.calories;

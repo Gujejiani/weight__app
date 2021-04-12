@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/shared/login.service';
+import { CanComponentDeactivate } from 'src/app/shared/saved-guard/saved-guard.service';
 import { UserService } from 'src/app/shared/user.service';
 import { Weight } from './weight.modal';
 @Component({
@@ -9,7 +11,7 @@ import { Weight } from './weight.modal';
   templateUrl: './weight.component.html',
   styleUrls: ['./weight.component.scss'],
 })
-export class WeightComponent implements OnInit {
+export class WeightComponent implements OnInit, CanComponentDeactivate {
   alreadyExists: boolean = false;
   @ViewChild('f') ngForm: NgForm;
   weight: Weight;
@@ -22,6 +24,8 @@ export class WeightComponent implements OnInit {
   prevDesired: number = 0;
   desiredWeight: number = 0;
   prevWeight: number;
+
+  changesSaved: boolean = true;
   constructor(
     private userService: UserService,
     private loginService: LoginService,
@@ -45,7 +49,6 @@ export class WeightComponent implements OnInit {
         this.desiredMode = true;
         this.prevDesired = this.userService.user.desired.weight;
       }
-      console.log(this.ngForm);
     }
     if (this.activatedRoute.snapshot.params.current) {
       this.prevWeight = +this.activatedRoute.snapshot.params.current;
@@ -58,7 +61,7 @@ export class WeightComponent implements OnInit {
     const alreadyExists = this.weights.findIndex((item) => {
       return item.date === date;
     });
-    console.log('submit');
+
     if (alreadyExists < 0) {
       let maxId = this.userService.generateUniqueID(this.weights);
       this.weight = new Weight(maxId, date, weight);
@@ -75,7 +78,6 @@ export class WeightComponent implements OnInit {
     this.showModal = true;
   }
   weightClicked(weight: Weight) {
-    console.log(weight);
     this.ngForm.setValue({
       date: weight.date,
       weight: weight.weight,
@@ -83,6 +85,7 @@ export class WeightComponent implements OnInit {
     this.weight = weight;
     this.hideModal();
     this.editMode = true;
+    this.changesSaved = false;
   }
   hideModal() {
     this.showModal = false;
@@ -98,14 +101,26 @@ export class WeightComponent implements OnInit {
     this.userService.updateWeight(this.weight?.id, this.weight);
     this.editMode = false;
     this.ngForm.reset();
+    this.router.navigate(['dashboard']);
+    this.changesSaved = true;
   }
 
   saveDesired() {
     const desiredWeight = +this.ngForm.value.weight;
-    console.log(this.ngForm.value.weight);
-    console.log(desiredWeight);
+
     this.userService.user.desired.weight = desiredWeight;
     this.userService.updateUser();
     this.router.navigate(['/dashboard']);
+  }
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.changesSaved) {
+      return true;
+    }
+
+    if (!this.changesSaved && this.weight.weight !== this.ngForm.value.weight) {
+      return confirm('do you want to discard changes?');
+    } else {
+      return true;
+    }
   }
 }

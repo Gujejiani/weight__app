@@ -101,8 +101,8 @@
         </button>
         <button
           *ngIf="!desiredMode"
-          [ngClass]="{ 'weight__form__button--invalid': !f.valid }"
-          [disabled]="!f.valid"
+          [ngClass]="{ 'weight__form__button--invalid': !f.valid || editMode }"
+          [disabled]="!f.valid || editMode"
           class="weight__form__button"
           type="submit"
         >

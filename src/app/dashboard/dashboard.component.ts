@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+
 import { LoginService } from '../shared/login.service';
 import { UserService } from '../shared/user.service';
 import { ActivityService } from './activity/activity.service';
@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   activityMessage: string;
 
   date: string;
+  showUserHistory: boolean = false;
   constructor(
     private loginService: LoginService,
     private userService: UserService,
@@ -44,17 +45,15 @@ export class DashboardComponent implements OnInit {
         this.loggedIn = true;
         if (this.userService.user.desired?.weight) {
           this.desiredWeight = this.userService.user.desired?.weight;
-          console.log(this.desiredWeight, this.currentWeight);
+
           this.generateWeightMessage();
         }
 
-        console.log(this.activityMessage);
         this.mealService.meals = this.userService.user.meals;
         this.activityService.activities = this.userService.user.activities;
         this.todayTotalMeal = this.mealService.getTodayTotalMealCalories();
         this.todayTotalActivity = this.activityService.getTodayTotalActivityCalories();
 
-        // this.activityService.activities = this.userService.user.activities;
         this.date = this.userService.getCurrentDate();
       }
       if (this.userService.user.desired.meal) {
@@ -91,7 +90,9 @@ export class DashboardComponent implements OnInit {
       this.wantsToGainWeight = false;
     }
   }
-
+  onHistoryToggle() {
+    this.showUserHistory = !this.showUserHistory;
+  }
   generateMealMessage() {
     this.mealMessage = this.weightService.generateMessage(
       +this.todayTotalMeal,

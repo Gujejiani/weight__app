@@ -9,12 +9,11 @@ export class ActivityService {
   updateActivities() {
     this.userService.user.activities = this.activities;
     this.userService.updateUser();
-    console.log(this.activities);
   }
 
   addActivity(activity: Activity) {
     this.activities.push(activity);
-    console.log(activity, this.activities);
+
     this.updateActivities();
   }
 
@@ -29,7 +28,6 @@ export class ActivityService {
     const activityIndex = this.activities.findIndex((meal) => meal.id === id);
     this.activities.splice(activityIndex, 1);
 
-    console.log(activityIndex, this.activities);
     this.updateActivities();
   }
   getTodayTotalActivityCalories() {
@@ -41,7 +39,7 @@ export class ActivityService {
         total += +activity.calories;
       }
     });
-    console.log(total);
+
     return total;
   }
   generateUniqueID(arr: Activity[]) {

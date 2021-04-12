@@ -1,0 +1,75 @@
+<div
+  class="history-wrapper"
+  [ngClass]="{ 'history-wrapper--show': showHistory }"
+>
+  <div class="history">
+    <ul class="history__titles">
+      <li class="history__titles__title">Date</li>
+      <li class="history__titles__title">Weight</li>
+      <li class="history__titles__title">Meals</li>
+      <li class="history__titles__title">Activities</li>
+    </ul>
+    <div>
+      <ul *ngFor="let history of histories" class="history__items">
+        <li class="history__items__item">{{ history.date }}</li>
+
+        <li
+          [ngStyle]="{
+            color: styleDataOnGainOrLoseWeight(history.weight, desiredWeight)
+          }"
+          class="history__items__item"
+        >
+          {{ history.weight }}
+        </li>
+        <li
+          [ngStyle]="{
+            color: styleDataOnGainOrLoseWeight(history.meals, desiredMeal)
+          }"
+          class="history__items__item"
+        >
+          {{ history.meals ? history.meals : 0 }}
+        </li>
+        <li
+          [ngStyle]="{
+            color: styleDataOnGainOrLoseWeight(
+              history.activity,
+              desiredActivity
+            )
+          }"
+          class="history__items__item"
+        >
+          {{ history.activity ? history.activity : 0 }}
+        </li>
+      </ul>
+    </div>
+    <!-- <ng-template #wantsToLose>
+      <ul *ngFor="let history of histories" class="history__items">
+        <li class="history__items__item">{{ history.date }}</li>
+        <li
+          [ngStyle]="{
+            color: history.weight < desiredWeight ? '#16df0f' : '#d3290b'
+          }"
+          class="history__items__item"
+        >
+          {{ history.weight }}
+        </li>
+        <li
+          [ngStyle]="{
+            color: history.meals < desiredMeal ? '#16df0f' : '#d3290b'
+          }"
+          class="history__items__item"
+        >
+          {{ history.meals ? history.meals : 0 }}
+        </li>
+        <li
+          [ngStyle]="{
+            color: history.activity < desiredActivity ? '#16df0f' : '#d3290b'
+          }"
+          class="history__items__item"
+        >
+          {{ history.activity ? history.activity : 0 }}
+        </li>
+      </ul>
+    </ng-template> -->
+  </div>
+</div>
