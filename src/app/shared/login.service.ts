@@ -20,7 +20,6 @@ export class LoginService {
     if (registered) {
       if (registered.email === email && registered.password === password) {
         this.loggedIn = true;
-
         this.userService.userLoggedIn(
           new User(
             registered.name,
@@ -36,6 +35,7 @@ export class LoginService {
         );
         this.loginTimerStart();
         this.userLoggedIn.next(true);
+        console.log('true');
         return {
           login: true,
           message: 'user logged in',
@@ -57,7 +57,9 @@ export class LoginService {
   }
   logOut() {
     this.loggedIn = false;
+    this.userLoggedIn.next(false);
     this.userService.userLogOut();
+
     clearTimeout(this.loginTimer);
   }
   isAuthenticated() {
@@ -76,6 +78,7 @@ export class LoginService {
   loginTimerStart() {
     this.loginTimer = setTimeout(() => {
       this.loggedIn = false;
+
       this.userService.userLogOut();
     }, 60000);
   }

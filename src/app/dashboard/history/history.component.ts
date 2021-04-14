@@ -64,6 +64,7 @@ export class HistoryComponent implements OnInit {
       history.weight = +weight?.weight || 0;
     });
 
+    console.log(this.histories);
     this.histories.forEach((history) => {
       this.getHistoryDataForMealAndActivity(history, this.user.meals, 'meal');
       this.getHistoryDataForMealAndActivity(
@@ -74,15 +75,19 @@ export class HistoryComponent implements OnInit {
     });
   }
 
-  getHistoryDataForMealAndActivity(history, data, type) {
+  getHistoryDataForMealAndActivity(history: History, data, type: string) {
     const dataType = data.find((item) => String(item.date) === history.date);
 
     const inputs = data.filter((item) => item?.date === dataType?.date);
+
     let totalData = 0;
+
     inputs.forEach((el) => {
+      totalData += +el.calories;
       const history: History = this.histories.find(
         (history) => String(history.date) === String(dataType?.date)
       );
+
       if (type === 'activity') {
         history.activity = totalData;
       }

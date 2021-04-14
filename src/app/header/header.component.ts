@@ -10,23 +10,22 @@ import { LoginService } from '../shared/login.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  loggedIn: boolean;
+  loggedIn: boolean = false;
   subscription: Subscription;
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
+    this.loggedIn = this.loginService.loggedIn;
     this.subscription = this.loginService.userLoggedIn.subscribe(
       (loggedIn: boolean) => {
         this.loggedIn = loggedIn;
       }
     );
-    this.loggedIn = this.loginService.loggedIn;
   }
 
   onLogout() {
     this.loggedIn = false;
     this.loginService.logOut();
     this.router.navigate(['']);
-    this.subscription.unsubscribe();
   }
 }

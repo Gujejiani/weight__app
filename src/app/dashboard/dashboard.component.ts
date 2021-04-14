@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from '../shared/login.service';
 import { UserService } from '../shared/user.service';
@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
   desiredWeight: number = 0;
   wantsToGainWeight: boolean = false;
   weightMessage: string;
-  changeDesiredMode = new EventEmitter<void>();
   todayTotalMeal: number = 0;
   desiredMeal: number = 0;
   mealMessage: string;
@@ -47,6 +46,8 @@ export class DashboardComponent implements OnInit {
           this.desiredWeight = this.userService.user.desired?.weight;
 
           this.generateWeightMessage();
+        } else {
+          this.weightMessage = ' please enter your desired weight';
         }
 
         this.mealService.meals = this.userService.user.meals;
