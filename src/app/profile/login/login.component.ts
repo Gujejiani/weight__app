@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       this.message = confirmation.message;
     }
     if (confirmation.login === true) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['dashboard']);
     }
   }
   onClick() {
