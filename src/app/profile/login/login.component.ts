@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     }
   }
   onClick() {
-    console.log('change');
     this.message = '';
   }
 }

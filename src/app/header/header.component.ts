@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
         this.loggedIn = loggedIn;
       }
     );
+    console.log(this.loginService.loggedIn);
   }
 
   onLogout() {
