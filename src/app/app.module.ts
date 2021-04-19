@@ -19,7 +19,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
 import { HistoryComponent } from './dashboard/history/history.component';
 import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +38,7 @@ import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
     PageNotFoundComponent,
     HistoryComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent],
 })

@@ -14,7 +14,11 @@ export class LoginComponent implements OnInit {
   invalidUser: boolean = false;
   constructor(private loginService: LoginService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.loginService.loggedIn) {
+      this.router.navigate(['dashboard']);
+    }
+  }
   onSubmit() {
     const { email, password } = this.formData.value.form;
 

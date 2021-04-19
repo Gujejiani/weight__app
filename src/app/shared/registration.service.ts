@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { User } from '../profile/user.modal';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class RegistrationService {
   private users: User[] = [];
-  constructor() {}
+  constructor(private authService: AuthService) {}
   userRegistered(user: User) {
     this.users.push(user);
 
+    // this.authService.signUp(user);
     this.saveToLocalStorage();
   }
 

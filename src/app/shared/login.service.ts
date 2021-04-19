@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { User } from '../profile/user.modal';
 import { AuthGuard } from './auth-guard/auth-guard.service';
+import { AuthService } from './auth.service';
 import { RegistrationService } from './registration.service';
 import { UserService } from './user.service';
 
@@ -12,11 +13,12 @@ export class LoginService {
   loggedIn: boolean = false;
   constructor(
     private registrationService: RegistrationService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {}
   login(email: string, password: string) {
     const registered = this.registrationService.getUserData(email);
-
+    this.authService.login(email, password);
     if (registered) {
       if (registered.email === email && registered.password === password) {
         this.loggedIn = true;
@@ -35,6 +37,7 @@ export class LoginService {
         );
         this.loginTimerStart();
         this.userLoggedIn.next(true);
+
         console.log('true');
         return {
           login: true,
