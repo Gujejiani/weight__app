@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { ActivityComponent } from './dashboard/activity/activity.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { MealsComponent } from './dashboard/meals/meals.component';
 import { WeightComponent } from './dashboard/weight/weight.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
 import { LoginComponent } from './profile/login/login.component';
-import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './profile/registration/registration.component';
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
 import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
@@ -18,7 +14,12 @@ const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', canActivate: [AuthGuard], component: ProfileComponent },
+  // { path: 'dashboard', canActivate: [AuthGuard], component: ProfileComponent },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule),
+  },
   {
     path: 'dashboard/weight/:current',
     canActivate: [AuthGuard],
