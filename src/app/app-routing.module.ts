@@ -4,17 +4,25 @@ import { ActivityComponent } from './dashboard/activity/activity.component';
 import { MealsComponent } from './dashboard/meals/meals.component';
 import { WeightComponent } from './dashboard/weight/weight.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { LoginComponent } from './profile/login/login.component';
-import { RegistrationComponent } from './profile/registration/registration.component';
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
 import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
-  { path: 'registration', component: RegistrationComponent },
-  { path: 'login', component: LoginComponent },
-  // { path: 'dashboard', canActivate: [AuthGuard], component: ProfileComponent },
+  {
+    path: 'registration',
+    loadChildren: () =>
+      import('./auth/registration/registration.module').then(
+        (m) => m.registrationModule
+      ),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./auth/login/login.module').then((m) => m.loginModule),
+  },
+
   {
     path: 'dashboard',
     loadChildren: () =>

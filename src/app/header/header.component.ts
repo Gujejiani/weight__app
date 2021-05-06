@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { State } from '../auth/store/auth.reducer';
 
 import { LoginService } from '../shared/login.service';
 
@@ -9,24 +11,36 @@ import { LoginService } from '../shared/login.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   loggedIn: boolean = false;
   subscription: Subscription;
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private store: Store<{ auth: State }>
+  ) {}
 
   ngOnInit(): void {
     this.loggedIn = this.loginService.loggedIn;
-    this.subscription = this.loginService.userLoggedIn.subscribe(
-      (loggedIn: boolean) => {
-        this.loggedIn = loggedIn;
-      }
-    );
-    console.log(this.loginService.loggedIn);
+    // this.subscription = this.loginService.userLoggedIn.subscribe(
+    //   (loggedIn: boolean) => {
+    //     this.loggedIn = loggedIn;
+    //   }
+    // );
+    this.store.select('auth').subscribe((auth) => {
+      auth.user ? (this.loggedIn = true) : (this.loggedIn = false);
+    });
   }
 
   onLogout() {
     this.loggedIn = false;
     this.loginService.logOut();
     this.router.navigate(['']);
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -21,6 +21,6 @@ export class User {
       activity: number;
     },
     public purpose: string,
-    public token: boolean
+    public token: boolean | string
   ) {}
 }

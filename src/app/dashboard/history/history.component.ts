@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/auth/store/auth.reducer';
 import { User } from 'src/app/profile/user.modal';
 import { UserService } from 'src/app/shared/user.service';
 import { MealsService } from '../meals/meal.service';
@@ -16,7 +18,8 @@ interface History {
 export class HistoryComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private mealService: MealsService
+    private mealService: MealsService,
+    private store: Store<{ auth: State }>
   ) {}
   dates: string[] = [];
   user: User;
@@ -31,13 +34,17 @@ export class HistoryComponent implements OnInit {
   @Input() showHistory: boolean;
 
   ngOnInit(): void {
-    this.user = this.userService.user;
-    this.getDates(this.user.activities);
-    this.getDates(this.user.weights);
-    this.getDates(this.user.meals);
-    this.addDatesToHistory();
-    this.getDesiredInputs();
-    this.addDataToHistory();
+    // this.user = this.userService.user;
+    this.store.select('auth').subscribe((authData) => {
+      this.user = authData.user;
+      console.log(this.user);
+      this.getDates(this.user.activities);
+      this.getDates(this.user.weights);
+      this.getDates(this.user.meals);
+      this.addDatesToHistory();
+      this.getDesiredInputs();
+      this.addDataToHistory();
+    });
   }
 
   getDates(arr) {
@@ -123,11 +130,11 @@ export class HistoryComponent implements OnInit {
   }
 
   getDesiredInputs() {
-    this.desiredWeight = this.userService.user.desired?.weight || 0;
-    this.desiredActivity = this.userService.user.desired?.activity || 0;
-    this.desiredMeal = this.userService.user.desired?.meal || 0;
+    this.desiredWeight = this.user.desired?.weight || 0;
+    this.desiredActivity = this.user.desired?.activity || 0;
+    this.desiredMeal = this.user.desired?.meal || 0;
 
-    if (this.userService.user.purpose === 'gain') {
+    if (this.user.purpose === 'gain') {
       this.wantsToGainWeight = true;
     } else {
       this.wantsToGainWeight = false;

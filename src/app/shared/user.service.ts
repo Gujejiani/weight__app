@@ -4,7 +4,7 @@ import { Activity } from '../dashboard/activity/activity.modal';
 import { Meal } from '../dashboard/meals/meal.modal';
 import { Weight } from '../dashboard/weight/weight.modal';
 import { User } from '../profile/user.modal';
-import { RegistrationService } from './registration.service';
+import { RegistrationService } from '../auth/registration/registration.service';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   changeDesiredWeight = new Subject<void>();

@@ -3,13 +3,13 @@
   (click)="onHistoryToggle()"
   [ngClass]="{ 'history-overlay--show': showUserHistory }"
 ></div>
-<div class="wrapper" [ngClass]="{ 'wrapper--show': loggedIn }">
-  <h3 class="dashboard__title">Welcome Back {{ user }}</h3>
+<div #wrapper class="wrapper" [ngClass]="{ 'wrapper--show': loggedIn }">
+  <h3 class="dashboard__title">Welcome Back {{ user?.name }}</h3>
   <button class="dashboard__table" (click)="onHistoryToggle()">HISTORY</button>
 
   <div class="dashboard">
     <app-history [showHistory]="showUserHistory"></app-history>
-    <div class="dashboard__card">
+    <div class="dashboard__card dashboard__card__1">
       <label class="dashboard__date">{{ date }}</label>
       <svg
         class="dashboard__card__icon"

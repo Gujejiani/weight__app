@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../profile/user.modal';
-import { AuthService } from './auth.service';
+import { User } from '../../profile/user.modal';
+import { AuthService } from '../../shared/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class RegistrationService {

@@ -2,6 +2,9 @@
   <form (ngSubmit)="onSubmit()" #form="ngForm" class="form">
     <h2 class="form__title">PLEASE REGISTER TO JOIN</h2>
     <div class="form-wrapper" #formData="ngModelGroup" ngModelGroup="formData">
+      <div class="form__spinner">
+        <app-spinner [showLoading]="loading"></app-spinner>
+      </div>
       <span *ngIf="userAlreadyRegistered" class="form__user-exits"
         >User with email {{ userEmail }} is already exits</span
       >
@@ -62,8 +65,8 @@
           ngModel
           name="password"
           required
-          minlength="4"
-          maxlength="10"
+          minlength="6"
+          maxlength="16"
           #password="ngModel"
         />
         <span
@@ -74,7 +77,7 @@
                 : 'hidden'
           }"
           class="form-help"
-          >password should contain min 4 and max 10 letters
+          >password should contain min 6 and max 16 letters
         </span>
       </div>
       <div class="form__group">
@@ -87,8 +90,8 @@
           ngModel
           name="confirmPassword"
           required
-          minlength="4"
-          maxlength="10"
+          minlength="6"
+          maxlength="16"
           #confirmPassword="ngModel"
           (input)="confirmingPassword($event)"
           [ngStyle]="{

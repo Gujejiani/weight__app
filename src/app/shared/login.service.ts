@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { User } from '../profile/user.modal';
 
-import { AuthService } from './auth.service';
-import { RegistrationService } from './registration.service';
+import { RegistrationService } from '../auth/registration/registration.service';
 import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,8 +12,7 @@ export class LoginService {
   loggedIn: boolean = false;
   constructor(
     private registrationService: RegistrationService,
-    private userService: UserService,
-    private authService: AuthService
+    private userService: UserService
   ) {}
   login(email: string, password: string) {
     const registered = this.registrationService.getUserData(email);

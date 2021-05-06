@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-
-import { LoginService } from '../shared/login.service';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { UserService } from '../shared/user.service';
 import { ActivityService } from './activity/activity.service';
 import { MealsService } from './meals/meal.service';
 import { Weight } from './weight/weight.modal';
 import { WeightService } from './weight/weight.service';
-
+import { User } from '../profile/user.modal';
+import { AppState } from '../store/app.reducer';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
-  user: string;
+export class DashboardComponent implements OnInit, AfterViewInit {
+  user: User = null;
   loggedIn: boolean = false;
   dashboard: boolean = false;
   currentWeight: number = 0;
@@ -30,52 +30,58 @@ export class DashboardComponent implements OnInit {
   date: string;
   showUserHistory: boolean = false;
   constructor(
-    private loginService: LoginService,
     private userService: UserService,
     private weightService: WeightService,
     private mealService: MealsService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      if (this.loginService.loggedIn) {
-        this.user = this.userService?.user.name;
-        this.loggedIn = true;
-        if (this.userService.user.desired?.weight) {
-          this.desiredWeight = this.userService.user.desired?.weight;
+    console.log('dashboard');
+    this.store.select('data').subscribe((authData) => {
+      this.user = authData.user;
+    });
+    if (this.user) {
+      this.mealService.meals = this.user.meals;
+      this.activityService.activities = this.user.activities;
+      this.todayTotalMeal = this.mealService.getTodayTotalMealCalories();
+      this.todayTotalActivity = this.activityService.getTodayTotalActivityCalories();
+      this.date = this.userService.getCurrentDate();
+    }
+    this.generateMessages();
 
-          this.generateWeightMessage();
-        } else {
-          this.weightMessage = ' please enter your desired weight';
-        }
-
-        this.mealService.meals = this.userService.user.meals;
-        this.activityService.activities = this.userService.user.activities;
-        this.todayTotalMeal = this.mealService.getTodayTotalMealCalories();
-        this.todayTotalActivity = this.activityService.getTodayTotalActivityCalories();
-
-        this.date = this.userService.getCurrentDate();
-      }
-      if (this.userService.user.desired.meal) {
-        this.desiredMeal = this.userService.user.desired.meal;
-        this.generateMealMessage();
-      } else {
-        this.mealMessage = 'please enter your desired activity calories';
-      }
-      if (this.userService.user.desired.activity) {
-        this.desiredActivity = this.userService.user.desired.activity;
-        this.generateActivityMessage();
-      } else {
-        this.activityMessage = 'please enter your desired activity calories';
-      }
-    }, 200);
     this.addDesiredWeight();
   }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.loggedIn = true;
+    }, 0);
+  }
 
+  generateMessages() {
+    if (this.user.desired?.weight) {
+      this.desiredWeight = this.user.desired?.weight;
+      this.generateWeightMessage();
+    } else {
+      this.weightMessage = ' please enter your desired weight';
+    }
+    if (this.user.desired?.meal) {
+      this.desiredMeal = this.user.desired.meal;
+      this.generateMealMessage();
+    } else {
+      this.mealMessage = 'please enter your desired activity calories';
+    }
+    if (this.userService.user?.desired.activity) {
+      this.desiredActivity = this.user.desired.activity;
+      this.generateActivityMessage();
+    } else {
+      this.activityMessage = 'please enter your desired activity calories';
+    }
+  }
   addDesiredWeight() {
-    if (!this.userService.user) return;
-    const match: Weight = this.userService.user.weights.find((item) => {
+    if (!this.user) return;
+    const match: Weight = this.user.weights.find((item) => {
       return this.userService.getCurrentDate() === String(item.date);
     });
 
@@ -85,7 +91,7 @@ export class DashboardComponent implements OnInit {
       this.currentWeight = 0;
     }
 
-    if (this.userService.user.purpose === 'gain') {
+    if (this.user.purpose === 'gain') {
       this.wantsToGainWeight = true;
     } else {
       this.wantsToGainWeight = false;
@@ -93,6 +99,7 @@ export class DashboardComponent implements OnInit {
   }
   onHistoryToggle() {
     this.showUserHistory = !this.showUserHistory;
+    this.loggedIn = true;
   }
   generateMealMessage() {
     this.mealMessage = this.weightService.generateMessage(
@@ -114,6 +121,7 @@ export class DashboardComponent implements OnInit {
       'calories'
     );
   }
+
   generateWeightMessage() {
     this.weightMessage = this.weightService.generateMessage(
       this.currentWeight,

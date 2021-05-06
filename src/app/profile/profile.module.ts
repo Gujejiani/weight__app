@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ActivityItemComponent } from '../dashboard/activity/activity-item/activity-item.component';
 import { ActivityComponent } from '../dashboard/activity/activity.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -13,7 +13,7 @@ import { WeightComponent } from '../dashboard/weight/weight.component';
 import { AuthGuard } from '../shared/auth-guard/auth-guard.service';
 import { ProfileComponent } from './profile.component';
 
-const route = [
+const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: ProfileComponent },
 ];
 
@@ -29,6 +29,6 @@ const route = [
     WeightComponent,
     WeightItemComponent,
   ],
-  imports: [RouterModule.forChild(route), CommonModule, FormsModule],
+  imports: [RouterModule.forChild(routes), CommonModule, FormsModule],
 })
 export class ProfileModule {}

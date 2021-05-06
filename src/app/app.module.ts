@@ -3,25 +3,35 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegistrationComponent } from './profile/registration/registration.component';
 import { HeaderComponent } from './header/header.component';
-import { LoginComponent } from './profile/login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
 import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
 import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { SharedModule } from './shared/shared.module';
+import { authReducer } from './auth/store/auth.reducer';
+import { appReducer } from './store/app.reducer';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent,
     HeaderComponent,
-    LoginComponent,
     WelcomeComponent,
     PageNotFoundComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    StoreModule.forRoot(appReducer),
+    environment.production ? [] : StoreDevtoolsModule.instrument(),
+    SharedModule,
+  ],
   providers: [AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent],
 })

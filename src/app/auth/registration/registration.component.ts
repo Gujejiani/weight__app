@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegistrationService } from 'src/app/shared/registration.service';
-import { User } from '../user.modal';
+import { DatabaseService } from 'src/app/database/database.service';
+import { User } from '../../profile/user.modal';
+import { AuthService } from '../auth.service';
+import { RegistrationService } from './registration.service';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +19,7 @@ export class RegistrationComponent implements OnInit {
   purpose: string = 'gain';
   passwordConfirmed: boolean = false;
   userAlreadyRegistered: boolean = false;
-
+  loading: boolean = false;
   confirmingPassword(e) {
     if (e.target.value === this.ngForm.value.formData.password) {
       this.passwordConfirmed = true;
@@ -28,11 +30,14 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private registrationService: RegistrationService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService,
+    private database: DatabaseService
   ) {}
 
   ngOnInit(): void {}
   onSubmit() {
+    this.loading = true;
     console.log(this.ngForm.value.formData);
     const form: {
       name: string;
@@ -59,15 +64,28 @@ export class RegistrationComponent implements OnInit {
         form.purpose,
         false
       );
-      if (this.registrationService.getUserData(this.user.email)) {
-        console.log('user already exits');
-        this.userAlreadyRegistered = true;
-        this.userEmail = form.email;
-      } else {
-        this.registrationService.userRegistered(this.user);
-        this.userAlreadyRegistered = false;
-        this.router.navigate(['/login']);
-      }
+      this.auth.signUp(this.user).subscribe(
+        (resData) => {
+          this.userAlreadyRegistered = false;
+          this.router.navigate(['/login']);
+          this.loading = false;
+          this.database.saveDataToFirebase(this.user, resData.idToken);
+        },
+        (err) => {
+          this.userAlreadyRegistered = true;
+          this.userEmail = form.email;
+          this.loading = false;
+        }
+      );
+      // if (this.registrationService.getUserData(this.user.email)) {
+      //   console.log('user already exits');
+      //   this.userAlreadyRegistered = true;
+      //   this.userEmail = form.email;
+      // } else {
+      //   this.registrationService.userRegistered(this.user);
+      //   this.userAlreadyRegistered = false;
+      //   this.router.navigate(['/login']);
+      // }
     }
   }
 }
