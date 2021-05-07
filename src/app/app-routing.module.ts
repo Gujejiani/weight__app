@@ -7,20 +7,23 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './shared/auth-guard/auth-guard.service';
 import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
 import { WelcomeComponent } from './welcome/welcome.component';
-
+import { LoggedInGuard } from './shared/auth-guard/logged-in.guard';
 const routes: Routes = [
-  { path: '', component: WelcomeComponent },
+  { path: '', component: WelcomeComponent, canActivate: [LoggedInGuard] },
+
   {
     path: 'registration',
     loadChildren: () =>
       import('./auth/registration/registration.module').then(
         (m) => m.registrationModule
       ),
+    canActivate: [LoggedInGuard],
   },
   {
     path: 'login',
     loadChildren: () =>
       import('./auth/login/login.module').then((m) => m.loginModule),
+    canActivate: [LoggedInGuard],
   },
 
   {

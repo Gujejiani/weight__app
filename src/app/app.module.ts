@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedModule } from './shared/shared.module';
-import { authReducer } from './auth/store/auth.reducer';
 import { appReducer } from './store/app.reducer';
 
 @NgModule({

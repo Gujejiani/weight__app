@@ -116,7 +116,7 @@ export class AuthService {
     this.store.dispatch(new UsersActions.autoLogin({ user: user }));
     this.database.getDataFromFirebase(user.token, user.email, true);
     this.router.navigate(['/dashboard']);
-    this.autoLogout(60000);
+    this.autoLogout(3600000);
   }
 
   clearTimer() {
