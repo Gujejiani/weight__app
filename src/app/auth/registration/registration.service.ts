@@ -1,36 +1,35 @@
-import { Injectable } from '@angular/core';
-import { User } from '../../profile/user.modal';
-import { AuthService } from '../../shared/auth.service';
+// import { Injectable } from '@angular/core';
+// import { User } from '../../profile/user.modal';
 
-@Injectable({ providedIn: 'root' })
-export class RegistrationService {
-  private users: User[] = [];
-  constructor(private authService: AuthService) {}
-  userRegistered(user: User) {
-    this.users.push(user);
+// @Injectable({ providedIn: 'root' })
+// export class RegistrationService {
+//   private users: User[] = [];
 
-    // this.authService.signUp(user);
-    this.saveToLocalStorage();
-  }
+//   userRegistered(user: User) {
+//     this.users.push(user);
 
-  saveToLocalStorage() {
-    localStorage.setItem('users', JSON.stringify(this.users));
-  }
-  addUsers(users: User[]) {
-    users.forEach((user) => {
-      this.users.push(user);
-    });
-  }
+//     // this.authService.signUp(user);
+//     this.saveToLocalStorage();
+//   }
 
-  getUserData(email: string) {
-    return this.users.find((user) => {
-      return user.email === email;
-    });
-  }
+//   saveToLocalStorage() {
+//     localStorage.setItem('users', JSON.stringify(this.users));
+//   }
+//   addUsers(users: User[]) {
+//     users.forEach((user) => {
+//       this.users.push(user);
+//     });
+//   }
 
-  updateUsersData(email: string, user: User) {
-    const index = this.users.findIndex((user) => user.email === email);
-    this.users[index] = user;
-    this.saveToLocalStorage();
-  }
-}
+//   getUserData(email: string) {
+//     return this.users.find((user) => {
+//       return user.email === email;
+//     });
+//   }
+
+//   updateUsersData(email: string, user: User) {
+//     const index = this.users.findIndex((user) => user.email === email);
+//     this.users[index] = user;
+//     this.saveToLocalStorage();
+//   }
+// }

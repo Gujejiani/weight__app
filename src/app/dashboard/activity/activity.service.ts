@@ -6,30 +6,29 @@ import { Activity } from './activity.modal';
 export class ActivityService {
   public activities: Activity[] = [];
   constructor(public userService: UserService) {}
-  // updateActivities() {
-  //   this.userService.user.activities = this.activities;
-  //   this.userService.updateUser();
-  // }
+  updateActivities() {
+    this.userService.user.activities = this.activities;
+  }
 
-  // addActivity(activity: Activity) {
-  //   this.activities.push(activity);
+  addActivity(activity: Activity) {
+    this.activities.push(activity);
 
-  //   this.updateActivities();
-  // }
+    this.updateActivities();
+  }
 
-  // updateActivity(id: number, activity: Activity) {
-  //   const activityIndex = this.activities.findIndex(
-  //     (activity) => activity.id === id
-  //   );
-  //   this.activities[activityIndex] = activity;
-  //   this.updateActivities();
-  // }
-  // deleteActivity(id: number) {
-  //   const activityIndex = this.activities.findIndex((meal) => meal.id === id);
-  //   this.activities.splice(activityIndex, 1);
+  updateActivity(id: number, activity: Activity) {
+    const activityIndex = this.activities.findIndex(
+      (activity) => activity.id === id
+    );
+    this.activities[activityIndex] = activity;
+    this.updateActivities();
+  }
+  deleteActivity(id: number) {
+    const activityIndex = this.activities.findIndex((meal) => meal.id === id);
+    this.activities.splice(activityIndex, 1);
 
-  //   this.updateActivities();
-  // }
+    this.updateActivities();
+  }
   getTodayTotalActivityCalories() {
     let total: number = 0;
 

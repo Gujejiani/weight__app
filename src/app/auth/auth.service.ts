@@ -101,10 +101,11 @@ export class AuthService {
 
   logout() {
     this.store.dispatch(new AuthActions.userLogOut());
+    this.router.navigate(['/login']);
     this.store.dispatch(new UsersActions.LoggedOut());
     this.database.updateUsers();
     localStorage.removeItem('userData');
-    this.router.navigate(['/login']);
+
     this.clearTimer();
   }
 
@@ -115,7 +116,6 @@ export class AuthService {
     this.store.dispatch(new AuthActions.userLoggedIn(user));
     this.store.dispatch(new UsersActions.autoLogin({ user: user }));
     this.database.getDataFromFirebase(user.token, user.email, true);
-    this.router.navigate(['/dashboard']);
     this.autoLogout(3600000);
   }
 

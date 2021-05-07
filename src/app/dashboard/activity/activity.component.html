@@ -4,14 +4,15 @@
   [ngClass]="{ 'overlay--show': showActivities }"
 ></div>
 <div class="wrapper">
-  <h3 *ngIf="!desiredActivityMode; else desiredMode" class="wrapper__title">
-    Add Your Activity {{ username }}
-  </h3>
-  <ng-template #desiredMode>
-    <h3 class="wrapper__title">
-      Add Your desired Activity calories {{ username }}
-    </h3>
-  </ng-template>
+  <button
+    *ngIf="!desiredActivityMode"
+    (click)="onActivityModal()"
+    type="button"
+    class="btn__counter"
+  >
+    Activity history ({{ counter }})
+  </button>
+  <h3 *ngIf="!desiredActivityMode" class="wrapper__title"></h3>
 
   <i routerLink="/dashboard" class="fas fa-arrow-left icon fa-xl fa-2x"></i>
   <div class="weight weight--activity">
@@ -141,14 +142,6 @@
           delete
         </button>
       </div>
-      <button
-        *ngIf="!desiredActivityMode"
-        (click)="onActivityModal()"
-        type="button"
-        class="btn__counter btn__counter--activity"
-      >
-        activities ({{ counter }})
-      </button>
     </form>
   </div>
 </div>

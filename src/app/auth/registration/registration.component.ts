@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { DatabaseService } from 'src/app/database/database.service';
 import { User } from '../../profile/user.modal';
 import { AuthService } from '../auth.service';
-import { RegistrationService } from './registration.service';
 
 @Component({
   selector: 'app-registration',
@@ -29,7 +28,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   constructor(
-    private registrationService: RegistrationService,
     private router: Router,
     private auth: AuthService,
     private database: DatabaseService

@@ -4,7 +4,14 @@
   [ngClass]="{ 'overlay--show': showMeals }"
 ></div>
 <div class="wrapper">
-  <h3 class="wrapper__title">Add Your Meal {{ username }}</h3>
+  <button
+    *ngIf="!desiredMealMode"
+    (click)="onMealModal()"
+    type="button"
+    class="btn__counter"
+  >
+    Meal history ({{ counter }})
+  </button>
   <i routerLink="/dashboard" class="fas fa-arrow-left icon fa-xl fa-2x"></i>
   <div class="weight weight--meal">
     <app-meal
@@ -142,14 +149,6 @@
           delete
         </button>
       </div>
-      <button
-        *ngIf="!desiredMealMode"
-        (click)="onMealModal()"
-        type="button"
-        class="btn__counter"
-      >
-        meals ({{ counter }})
-      </button>
     </form>
   </div>
 </div>

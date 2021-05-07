@@ -1,4 +1,5 @@
 <div class="modal-wrapper" [ngClass]="{ 'modal-wrapper--show': showModal }">
+  <label class="title">Click to edit Weights</label>
   <ul
     *ngIf="weights.length > 0; else message"
     class="titles weight--background"

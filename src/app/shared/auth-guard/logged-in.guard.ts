@@ -19,21 +19,14 @@ export class LoggedInGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return new Promise((resolve) => {
       this.store.pipe(take(1)).subscribe((state: AppState) => {
-        if (state.auth.user) {
+        if (!state.auth.user) {
           resolve(true);
         } else {
           resolve(false);
           this.router.navigate(['/dashboard']);
         }
+        resolve(true);
       });
-    });
-
-    this.store.select('auth').subscribe((auth) => {
-      if (auth.user) {
-        return new Promise((resolve) => {
-          resolve(true);
-        });
-      }
     });
   }
 }

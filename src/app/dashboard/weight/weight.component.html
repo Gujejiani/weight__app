@@ -3,8 +3,17 @@
   (click)="hideModal()"
   [ngClass]="{ 'overlay--show': showModal }"
 ></div>
+
 <div class="wrapper">
-  <h3 class="wrapper__title">Add Your Weight {{ userName }}</h3>
+  <button
+    *ngIf="!desiredMode"
+    (click)="onWeightModal()"
+    type="button"
+    class="btn__counter"
+  >
+    Weight history ({{ counter }})
+  </button>
+
   <i routerLink="/dashboard" class="fas fa-arrow-left icon fa-xl fa-2x"></i>
   <div class="weight">
     <app-weight-item
@@ -129,14 +138,6 @@
           delete
         </button>
       </div>
-      <button
-        *ngIf="!desiredMode"
-        (click)="onWeightModal()"
-        type="button"
-        class="btn__counter"
-      >
-        Weight ({{ counter }})
-      </button>
     </form>
     <span class="already--added" *ngIf="alreadyExists"
       >this date is already added, please click it to edit</span

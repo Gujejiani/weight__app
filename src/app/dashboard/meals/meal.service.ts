@@ -8,26 +8,26 @@ export class MealsService {
 
   constructor(public userService: UserService) {}
 
-  updateMeals() {
-    this.userService.user.meals = this.meals;
-    this.userService.updateUser();
-  }
+  // updateMeals() {
+  //   this.userService.user.meals = this.meals;
+  //   this.userService.updateUser();
+  // }
 
-  addMeal(meal: Meal) {
-    this.meals.push(meal);
-    this.updateMeals();
-  }
+  // addMeal(meal: Meal) {
+  //   this.meals.push(meal);
+  //   this.updateMeals();
+  // }
 
-  updateMeal(id: number, meal: Meal) {
-    const mealIndex = this.meals.findIndex((meal) => meal.id === id);
-    this.meals[mealIndex] = meal;
-    this.updateMeals();
-  }
-  deleteMeal(id: number) {
-    const mealIndex = this.meals.findIndex((meal) => meal.id === id);
-    this.meals.splice(mealIndex, 1);
-    this.updateMeals();
-  }
+  // updateMeal(id: number, meal: Meal) {
+  //   const mealIndex = this.meals.findIndex((meal) => meal.id === id);
+  //   this.meals[mealIndex] = meal;
+  //   this.updateMeals();
+  // // }
+  // deleteMeal(id: number) {
+  //   const mealIndex = this.meals.findIndex((meal) => meal.id === id);
+  //   this.meals.splice(mealIndex, 1);
+  //   this.updateMeals();
+  // }
 
   getTodayTotalMealCalories(givenDate?) {
     let total: number = 0;

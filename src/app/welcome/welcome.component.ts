@@ -1,18 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginService } from '../shared/login.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
 })
-export class WelcomeComponent implements OnInit {
-  constructor(private loginService: LoginService, private router: Router) {}
-
-  ngOnInit(): void {
-    if (this.loginService.loggedIn) {
-      this.router.navigate(['dashboard']);
-    }
-  }
-}
+export class WelcomeComponent {}

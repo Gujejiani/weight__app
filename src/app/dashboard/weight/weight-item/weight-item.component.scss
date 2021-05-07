@@ -7,3 +7,10 @@
     background-color: darken($color: rgb(6, 111, 117), $amount: 5);
   }
 }
+.title {
+  display: flex;
+  background-color: rgb(6, 111, 117);
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}

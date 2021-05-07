@@ -8,33 +8,27 @@ import {
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { State } from 'src/app/auth/store/auth.reducer';
-import { LoginService } from '../login.service';
+import { AppState } from 'src/app/store/app.reducer';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private store: Store<{ auth: State }>
-  ) {}
+  constructor(private router: Router, private store: Store<{ auth: State }>) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    let authenticated: boolean = this.loginService.isAuthenticated();
-    this.store.select('auth').subscribe((authState) => {
-      if (authState.user) {
-        authenticated = true;
-      }
+    return new Promise((resolve) => {
+      this.store.pipe(take(1)).subscribe((state: AppState) => {
+        if (state.auth.user) {
+          resolve(true);
+        } else {
+          resolve(false);
+          this.router.navigate(['/login']);
+        }
+      });
     });
-    console.log(authenticated);
-    if (authenticated) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      this.loginService.userLoggedIn.next(false);
-    }
   }
 }

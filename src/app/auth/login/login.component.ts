@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { DatabaseService } from 'src/app/database/database.service';
 import { User } from 'src/app/profile/user.modal';
-import { LoginService } from 'src/app/shared/login.service';
 
 @Component({
   selector: 'app-login',
@@ -18,17 +17,12 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   user: User;
   constructor(
-    private loginService: LoginService,
     private router: Router,
     private auth: AuthService,
     private database: DatabaseService
   ) {}
 
-  ngOnInit(): void {
-    if (this.loginService.loggedIn) {
-      this.router.navigate(['dashboard']);
-    }
-  }
+  ngOnInit(): void {}
   onSubmit() {
     this.loading = true;
     const { email, password } = this.formData.value.form;
@@ -61,11 +55,8 @@ export class LoginComponent implements OnInit {
     //   this.router.navigate(['dashboard']);
     // }
   }
-  postData() {
-    this.database.updateUsers();
-  }
+
   onClick() {
-    const user = 'badri esebua';
     this.message = '';
   }
 }
