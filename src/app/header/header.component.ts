@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { State } from '../auth/store/auth.reducer';
 
 import { LoginService } from '../shared/login.service';
@@ -17,11 +18,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private store: Store<{ auth: State }>
+    private store: Store<{ auth: State }>,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.loggedIn = this.loginService.loggedIn;
+    // this.loggedIn = this.loginService.loggedIn;
     // this.subscription = this.loginService.userLoggedIn.subscribe(
     //   (loggedIn: boolean) => {
     //     this.loggedIn = loggedIn;
@@ -33,9 +35,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    this.loggedIn = false;
-    this.loginService.logOut();
-    this.router.navigate(['']);
+    // this.loggedIn = false;
+    // this.loginService.logOut();
+    // this.router.navigate(['']);
+    this.authService.logout();
   }
 
   ngOnDestroy() {

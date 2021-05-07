@@ -36,6 +36,7 @@ export class HistoryComponent implements OnInit {
   ngOnInit(): void {
     // this.user = this.userService.user;
     this.store.select('auth').subscribe((authData) => {
+      if (!authData.user) return;
       this.user = authData.user;
       console.log(this.user);
       this.getDates(this.user.activities);

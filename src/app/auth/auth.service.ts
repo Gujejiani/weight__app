@@ -1,10 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from '../profile/user.modal';
-
+import { AppState } from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
+import * as UsersActions from '../dashboard/store/users.actions';
+import { DatabaseService } from '../database/database.service';
 export interface LoginData {
   idToken: string;
   email: string;
@@ -16,8 +21,13 @@ export interface LoginData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
-
+  constructor(
+    private http: HttpClient,
+    private store: Store<AppState>,
+    private router: Router,
+    private database: DatabaseService
+  ) {}
+  timer;
   signUp(user: User) {
     return this.http
       .post<LoginData>(
@@ -42,6 +52,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    this.clearTimer();
     return this.http
       .post<LoginData>(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAn6LqFnm62eH7S1XoZlrcihTl-VxbybYA',
@@ -78,7 +89,40 @@ export class AuthService {
     };
 
     // this.autoLogout(expiresIn * 1000);
-    localStorage.setItem('userData', JSON.stringify(userCredits));
+    this.autoLogout(expiresIn * 1000);
+  }
+
+  autoLogout(expirationTime) {
+    console.log('logouts in ' + expirationTime);
+    this.timer = setTimeout(() => {
+      this.logout();
+    }, expirationTime);
+  }
+
+  logout() {
+    this.store.dispatch(new AuthActions.userLogOut());
+    this.store.dispatch(new UsersActions.LoggedOut());
+    this.database.updateUsers();
+    localStorage.removeItem('userData');
+    this.router.navigate(['/login']);
+    this.clearTimer();
+  }
+
+  autoLogin() {
+    this.clearTimer();
+    const user: User = JSON.parse(localStorage.getItem('userData'));
+    if (!user) return;
+    this.store.dispatch(new AuthActions.userLoggedIn(user));
+    this.store.dispatch(new UsersActions.autoLogin({ user: user }));
+    this.database.getDataFromFirebase(user.token, user.email, true);
+    this.router.navigate(['/dashboard']);
+    this.autoLogout(60000);
+  }
+
+  clearTimer() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
   }
 
   private errorHandling(errorResponse: HttpErrorResponse) {

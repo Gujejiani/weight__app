@@ -3,6 +3,7 @@ import { LoginService } from './shared/login.service';
 
 import { RegistrationService } from './auth/registration/registration.service';
 import { UserService } from './shared/user.service';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +15,16 @@ export class AppComponent implements OnInit {
 
   constructor(
     private registrationService: RegistrationService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private authService: AuthService
   ) {}
   ngOnInit() {
-    const users = JSON.parse(localStorage.getItem('users'));
-    console.log('app load');
-    if (users) {
-      this.registrationService.addUsers(users);
-      this.loginService.checkIfUserHasToken(users);
-    }
+    this.authService.autoLogin();
+    // const users = JSON.parse(localStorage.getItem('users'));
+    // console.log('app load');
+    // if (users) {
+    //   this.registrationService.addUsers(users);
+    //   this.loginService.checkIfUserHasToken(users);
+    // }
   }
 }

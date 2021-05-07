@@ -116,7 +116,7 @@ export class WeightComponent
     this.store.dispatch(
       new UserActions.weightsArrayUpdate({ weights: weights })
     );
-
+    this.updateState();
     this.resetForm();
     this.router.navigate(['dashboard']);
     this.changesSaved = true;
@@ -150,8 +150,11 @@ export class WeightComponent
 
   saveDesired() {
     const desiredWeight = +this.ngForm.value.weight;
-    this.userService.user.desired.weight = desiredWeight;
-    this.userService.updateUser();
+
+    this.store.dispatch(
+      new UserActions.desiredWeightAdded({ desiredWeight: desiredWeight })
+    );
+    this.updateState();
     this.router.navigate(['/dashboard']);
   }
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {

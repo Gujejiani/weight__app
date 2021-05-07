@@ -49,9 +49,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.todayTotalActivity = this.activityService.getTodayTotalActivityCalories();
       this.date = this.userService.getCurrentDate();
     }
-    this.generateMessages();
 
     this.addDesiredWeight();
+    this.generateMessages();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     } else {
       this.mealMessage = 'please enter your desired activity calories';
     }
-    if (this.userService.user?.desired.activity) {
+    if (this.user?.desired.activity) {
       this.desiredActivity = this.user.desired.activity;
       this.generateActivityMessage();
     } else {
@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       +this.todayTotalMeal,
       +this.desiredMeal,
       this.wantsToGainWeight,
-      this.user,
+      this.user.name,
       'cl',
       'calories'
     );
@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       +this.todayTotalActivity,
       +this.desiredActivity,
       this.wantsToGainWeight,
-      this.user,
+      this.user.name,
       'cl',
       'calories'
     );
@@ -124,10 +124,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   generateWeightMessage() {
     this.weightMessage = this.weightService.generateMessage(
-      this.currentWeight,
-      this.desiredWeight,
+      +this.currentWeight,
+      +this.desiredWeight,
       this.wantsToGainWeight,
-      this.user,
+      this.user.name,
       'kg',
       'weight'
     );

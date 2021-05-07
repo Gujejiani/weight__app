@@ -27,6 +27,7 @@
       &__link {
         color: rgb(173, 167, 167);
         cursor: pointer;
+        padding-bottom: 5px;
         &:hover {
           border-bottom: 1px solid rgb(0, 195, 255);
         }
@@ -34,7 +35,6 @@
           margin-right: 10px;
         }
         &--active {
-          padding-bottom: 5px;
           color: #fff;
         }
       }

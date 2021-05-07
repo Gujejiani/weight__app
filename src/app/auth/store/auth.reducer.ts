@@ -19,7 +19,13 @@ export function authReducer(
         ...state,
         user: action.payload,
       };
-
+    case ActionTypes.LOGOUT:
+      let user = { ...state.user };
+      user = null;
+      return {
+        ...state,
+        user: user,
+      };
     default:
       return state;
   }

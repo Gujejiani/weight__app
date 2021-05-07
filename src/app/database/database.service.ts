@@ -6,11 +6,16 @@ import { User } from '../profile/user.modal';
 import * as AuthActions from '../auth/store/auth.actions';
 import * as UsersActions from '../dashboard/store/users.actions';
 import { AppState } from '../store/app.reducer';
+import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
-  constructor(private http: HttpClient, private store: Store<AppState>) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
   users: User[];
-  token: string;
+  token: string | boolean;
   //save data to firebase
   saveDataToFirebase(user: User, token: string) {
     const users = [];
@@ -34,7 +39,11 @@ export class DatabaseService {
       );
   }
 
-  getDataFromFirebase(token: string, email: string) {
+  getDataFromFirebase(
+    token: string | boolean,
+    email: string,
+    onlyUsers: boolean = false
+  ) {
     this.token = token;
 
     this.http
@@ -67,13 +76,22 @@ export class DatabaseService {
         (users: User[]) => {
           console.log(users);
           const loggedUser: User = users.find((user) => user.email === email);
-
           console.log(loggedUser, '   logged User');
           loggedUser.token = token;
-          this.store.dispatch(
-            new UsersActions.fetchingUserAndUsers({ users, loggedUser })
-          );
-          this.store.dispatch(new AuthActions.UserLoggedIn(loggedUser));
+
+          if (onlyUsers) {
+            console.log('only users');
+            this.store.dispatch(
+              new UsersActions.fetchingOnlyUsers({ users: users })
+            );
+          } else {
+            this.store.dispatch(
+              new UsersActions.fetchingUserAndUsers({ users, loggedUser })
+            );
+            this.store.dispatch(new AuthActions.userLoggedIn(loggedUser));
+            this.router.navigate(['/dashboard']);
+            localStorage.setItem('userData', JSON.stringify(loggedUser));
+          }
         },
         (err) => {
           console.log(err);
