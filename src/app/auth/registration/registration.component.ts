@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
           this.userAlreadyRegistered = false;
           this.router.navigate(['/login']);
           this.loading = false;
-          this.database.saveDataToFirebase(this.user, resData.idToken);
+          // this.database.saveDataToFirebase(this.user, resData.idToken);
         },
         (err) => {
           this.userAlreadyRegistered = true;
