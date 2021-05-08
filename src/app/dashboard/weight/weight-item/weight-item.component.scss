@@ -1,5 +1,5 @@
 .weight--background {
-  background: rgb(6, 111, 117);
+  background-color: darken($color: rgb(6, 111, 117), $amount: 10);
 }
 .weight--field {
   background-color: darken($color: rgb(6, 111, 117), $amount: 10);
@@ -9,7 +9,7 @@
 }
 .title {
   display: flex;
-  background-color: rgb(6, 111, 117);
+  background-color: darken($color: rgb(6, 111, 117), $amount: 10);
   width: 100%;
   text-align: center;
   justify-content: center;

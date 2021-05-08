@@ -6,3 +6,10 @@
     background-color: lighten($color: #75423b, $amount: 10);
   }
 }
+.title {
+  display: flex;
+  background-color: #75423b;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}

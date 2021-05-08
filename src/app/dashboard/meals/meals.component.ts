@@ -7,7 +7,6 @@ import { CanComponentDeactivate } from 'src/app/shared/saved-guard/saved-guard.s
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Meal } from './meal.modal';
-
 import * as UserActions from '../store/users.actions';
 import { DatabaseService } from 'src/app/database/database.service';
 @Component({

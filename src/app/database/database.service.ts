@@ -42,7 +42,6 @@ export class DatabaseService {
             }
             this.users = users;
             this.addMealWeightActivityArrays(users); // adding  empty [] in case if firebase gives activities, weight and meals undefined;
-            console.log(users);
 
             return users;
           } else {
@@ -75,6 +74,7 @@ export class DatabaseService {
             this.store.dispatch(new AuthActions.userLoggedIn(loggedUser));
             this.router.navigate(['/dashboard']);
             this.loggedUser = loggedUser;
+            localStorage.setItem('userData', JSON.stringify(loggedUser));
           }
           if (registeredUser) {
             this.store.dispatch(

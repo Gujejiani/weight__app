@@ -1,10 +1,12 @@
 .wrapper {
   max-width: 500px;
   margin: 0 auto;
-  padding-top: 100px;
+
   @media (max-width: 725px) {
     padding-top: 80px;
   }
+
+  padding-bottom: 50px;
 }
 .form-wrapper {
   background-color: #093447;
@@ -22,6 +24,17 @@
     right: 20px;
     top: -40px;
   }
+  &__login {
+    display: flex;
+    padding-top: 10px;
+    justify-content: center;
+    &__color {
+      color: rgb(16, 164, 16);
+      margin-left: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
   &__group {
     display: flex;
     flex-direction: column;
@@ -33,6 +46,7 @@
       font-weight: bold;
       opacity: 0.8;
       margin-bottom: 5px;
+      font-size: 15px;
     }
     &__input {
       padding: 8px;

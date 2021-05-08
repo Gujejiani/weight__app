@@ -25,7 +25,9 @@
         <span
           [ngStyle]="{
             visibility:
-              !name.valid && name.dirty && name.viewModel ? 'visible' : 'hidden'
+              !name.valid && name.touched && name.viewModel
+                ? 'visible'
+                : 'hidden'
           }"
           class="form-help"
           >username should contain min 4 and max 10 characters</span
@@ -48,7 +50,7 @@
           class="form-help"
           [ngStyle]="{
             visibility:
-              !email.valid && email.dirty && email.viewModel
+              !email.valid && email.touched && email.viewModel
                 ? 'visible'
                 : 'hidden'
           }"
@@ -72,7 +74,7 @@
         <span
           [ngStyle]="{
             visibility:
-              !password.valid && password.dirty && password.viewModel
+              !password.valid && password.touched && password.viewModel
                 ? 'visible'
                 : 'hidden'
           }"
@@ -103,7 +105,7 @@
           [ngStyle]="{
             visibility:
               !confirmPassword.valid &&
-              confirmPassword.dirty &&
+              confirmPassword.touched &&
               confirmPassword.viewModel
                 ? 'visible'
                 : 'hidden'
@@ -132,6 +134,9 @@
       >
         SUBMIT
       </button>
+      <span class="form__login"
+        >or <a routerLink="/login" class="form__login__color"> Login</a>
+      </span>
     </div>
   </form>
 </div>

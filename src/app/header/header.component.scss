@@ -14,10 +14,19 @@
   z-index: 5;
 }
 .nav {
-  padding: 10px 0;
+  position: relative;
+  padding: 20px 0;
   display: flex;
-  justify-content: space-between;
-  &__title {
+  justify-content: flex-end;
+  &__link {
+    display: flex;
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    left: 0;
+    top: -10px;
+  }
+  &__img {
     color: rgb(219, 211, 211);
   }
   &__list {

@@ -41,9 +41,12 @@ input.ng-touched.ng-invalid {
 }
 .form-help {
   position: absolute;
-  bottom: -13px;
+  bottom: -11px;
   font-size: 13px;
   color: rgb(243, 30, 30);
+  @media (max-width: 700px) {
+    font-size: 10px;
+  }
 }
 .wrapper {
   padding-top: 100px;
