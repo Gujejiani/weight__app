@@ -25,6 +25,13 @@ export function usersReducer(
         users: action.payload.users,
         user: action.payload.loggedUser,
       };
+    case ActionTypes.USER_REGISTERED:
+      const usersCopy = [...state.users];
+      usersCopy.push(action.payload.user);
+      return {
+        ...state,
+        users: usersCopy,
+      };
     case ActionTypes.AUTO_LOGIN:
       return {
         ...state,
@@ -49,6 +56,7 @@ export function usersReducer(
         return state;
       }
     case ActionTypes.WEIGHTS_UPDATE:
+      console.log('xaaxxxxxxxxxxxxxxxxxx ', action.payload.weights);
       userCopy.weights = action.payload.weights;
       return {
         ...state,

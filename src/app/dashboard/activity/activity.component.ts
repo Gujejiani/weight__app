@@ -8,7 +8,6 @@ import { CanComponentDeactivate } from 'src/app/shared/saved-guard/saved-guard.s
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Activity } from './activity.modal';
-import { ActivityService } from './activity.service';
 import * as UserActions from '../store/users.actions';
 import { map } from 'rxjs/operators';
 @Component({
@@ -30,7 +29,7 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
   changesSaved: boolean = true;
   constructor(
     private userService: UserService,
-    private activityService: ActivityService,
+
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
@@ -73,7 +72,7 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
   onSubmit() {
     const activities: Activity[] = [...this.activities];
     const { type, calories, date } = this.ngForm.value;
-    const id = this.activityService.generateUniqueID(this.activities);
+    const id = this.userService.generateUniqueID(this.activities);
     this.activity = new Activity(type, +calories, date, id);
     activities.push(this.activity);
     // this.activityService.addActivity(this.activity);

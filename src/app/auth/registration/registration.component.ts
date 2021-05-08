@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { DatabaseService } from 'src/app/database/database.service';
 import { User } from '../../profile/user.modal';
 import { AuthService } from '../auth.service';
-
+import { State } from '../store/auth.reducer';
+import * as UserActions from '../../dashboard/store/users.actions';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -30,7 +32,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private database: DatabaseService
+    private database: DatabaseService,
+    private store: Store<State>
   ) {}
 
   ngOnInit(): void {}
@@ -63,10 +66,18 @@ export class RegistrationComponent implements OnInit {
         false
       );
       this.auth.signUp(this.user).subscribe(
+        // getting all registered users
         (resData) => {
           this.userAlreadyRegistered = false;
           this.router.navigate(['/login']);
           this.loading = false;
+          this.database.getDataFromFirebase(
+            resData.idToken,
+            resData.email,
+            true,
+            this.user
+          );
+          this.database.updateUsers(); //sending registered user
           // this.database.saveDataToFirebase(this.user, resData.idToken);
         },
         (err) => {

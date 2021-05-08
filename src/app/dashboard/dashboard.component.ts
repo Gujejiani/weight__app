@@ -1,10 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/user.service';
-import { ActivityService } from './activity/activity.service';
-import { MealsService } from './meals/meal.service';
 import { Weight } from './weight/weight.modal';
-import { WeightService } from './weight/weight.service';
 import { User } from '../profile/user.modal';
 import { AppState } from '../store/app.reducer';
 @Component({
@@ -31,9 +28,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   showUserHistory: boolean = false;
   constructor(
     private userService: UserService,
-    private weightService: WeightService,
-    private mealService: MealsService,
-    private activityService: ActivityService,
+
     private store: Store<AppState>
   ) {}
 
@@ -43,10 +38,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.user = authData.user;
     });
     if (this.user) {
-      this.mealService.meals = this.user.meals;
-      this.activityService.activities = this.user.activities;
-      this.todayTotalMeal = this.mealService.getTodayTotalMealCalories();
-      this.todayTotalActivity = this.activityService.getTodayTotalActivityCalories();
+      this.todayTotalMeal = this.userService.getTodayTotalCalories(
+        this.user.meals,
+        null
+      );
+      this.todayTotalActivity = this.userService.getTodayTotalCalories(
+        this.user.activities,
+        null
+      );
       this.date = this.userService.getCurrentDate();
     }
 
@@ -102,7 +101,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.loggedIn = true;
   }
   generateMealMessage() {
-    this.mealMessage = this.weightService.generateMessage(
+    this.mealMessage = this.userService.generateMessage(
       +this.todayTotalMeal,
       +this.desiredMeal,
       this.wantsToGainWeight,
@@ -112,7 +111,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     );
   }
   generateActivityMessage() {
-    this.activityMessage = this.weightService.generateMessage(
+    this.activityMessage = this.userService.generateMessage(
       +this.todayTotalActivity,
       +this.desiredActivity,
       this.wantsToGainWeight,
@@ -123,7 +122,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   generateWeightMessage() {
-    this.weightMessage = this.weightService.generateMessage(
+    this.weightMessage = this.userService.generateMessage(
       +this.currentWeight,
       +this.desiredWeight,
       this.wantsToGainWeight,

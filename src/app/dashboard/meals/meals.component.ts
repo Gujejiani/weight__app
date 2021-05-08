@@ -7,7 +7,7 @@ import { CanComponentDeactivate } from 'src/app/shared/saved-guard/saved-guard.s
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Meal } from './meal.modal';
-import { MealsService } from './meal.service';
+
 import * as UserActions from '../store/users.actions';
 import { DatabaseService } from 'src/app/database/database.service';
 @Component({
@@ -28,7 +28,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   changesSaved: boolean = true;
   constructor(
     private userService: UserService,
-    private mealService: MealsService,
+
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
@@ -63,7 +63,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
       meal,
       +calories,
       date,
-      this.mealService.generateUniqueID(this.meals)
+      this.userService.generateUniqueID(this.meals)
     );
     meals.push(this.meal);
     this.dispatchMeals(meals);

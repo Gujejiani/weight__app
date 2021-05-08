@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from 'src/app/auth/store/auth.reducer';
 import { User } from 'src/app/profile/user.modal';
 import { UserService } from 'src/app/shared/user.service';
-import { MealsService } from '../meals/meal.service';
+
 interface History {
   date?: string;
   weight?: number;
@@ -18,7 +18,6 @@ interface History {
 export class HistoryComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private mealService: MealsService,
     private store: Store<{ auth: State }>
   ) {}
   dates: string[] = [];

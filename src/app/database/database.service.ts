@@ -16,33 +16,13 @@ export class DatabaseService {
   ) {}
   users: User[];
   token: string | boolean;
-  //save data to firebase
-  saveDataToFirebase(user: User, token: string) {
-    const users = [];
-    users.push(user);
-
-    console.log(users);
-
-    this.http
-      .post(
-        'https://weight-app-d2c84-default-rtdb.firebaseio.com/users.json?auth=' +
-          token,
-        users
-      )
-      .subscribe(
-        (res) => {
-          console.log(res);
-        },
-        (err) => {
-          console.log('err ', err);
-        }
-      );
-  }
+  loggedUser: User;
 
   getDataFromFirebase(
     token: string | boolean,
     email: string,
-    onlyUsers: boolean = false
+    onlyUsers: boolean = false,
+    registeredUser?: User
   ) {
     this.token = token;
 
@@ -61,11 +41,12 @@ export class DatabaseService {
               users.push({ ...res[key][0] });
             }
             this.users = users;
-            this.addMealWeightActivityArrays(users); // adding  empty [] in case if firebase gives activities, weight and meals without them;
+            this.addMealWeightActivityArrays(users); // adding  empty [] in case if firebase gives activities, weight and meals undefined;
             console.log(users);
 
             return users;
           } else {
+            console.log(res);
             console.log('ahahah');
             this.addMealWeightActivityArrays(res);
             return res;
@@ -76,8 +57,11 @@ export class DatabaseService {
         (users: User[]) => {
           console.log(users);
           const loggedUser: User = users.find((user) => user.email === email);
-          console.log(loggedUser, '   logged User');
-          loggedUser.token = token;
+
+          if (loggedUser) {
+            console.log(loggedUser, '   logged User');
+            loggedUser.token = token;
+          }
 
           if (onlyUsers) {
             console.log('only users');
@@ -90,7 +74,12 @@ export class DatabaseService {
             );
             this.store.dispatch(new AuthActions.userLoggedIn(loggedUser));
             this.router.navigate(['/dashboard']);
-            localStorage.setItem('userData', JSON.stringify(loggedUser));
+            this.loggedUser = loggedUser;
+          }
+          if (registeredUser) {
+            this.store.dispatch(
+              new UsersActions.userRegistered({ user: registeredUser })
+            );
           }
         },
         (err) => {
@@ -101,6 +90,10 @@ export class DatabaseService {
 
   updateUsers() {
     this.store.select('data').subscribe((usersData) => {
+      if (usersData.user) {
+        localStorage.setItem('userData', JSON.stringify(usersData.user));
+      }
+
       this.http
         .put(
           'https://weight-app-d2c84-default-rtdb.firebaseio.com/users.json?auth=' +
@@ -119,6 +112,7 @@ export class DatabaseService {
   }
 
   addMealWeightActivityArrays(users: User[]): void {
+    console.log(users + ' users');
     users.forEach((user) => {
       user.weights ? (user.weights = user.weights) : (user.weights = []);
       user.meals ? (user.meals = user.meals) : (user.meals = []);

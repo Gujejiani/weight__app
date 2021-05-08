@@ -8,47 +8,31 @@ import { User } from '../profile/user.modal';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   changeDesiredWeight = new Subject<void>();
-
   public user: User;
 
-  // addWeight(weight: Weight) {
-  //   if (this.user) {
-  //     this.user?.weights.push(weight);
-  //     this.updateUser();
-  //   }
-  // }
-  // deleteWeight(date: Date) {
-  //   const index = this.user?.weights.findIndex((user) => user.date === date);
-  //   this.user?.weights.splice(index, 1);
-  //   this.updateUser();
-  // }
-  // updateWeight(id: number, newWeight: Weight) {
-  //   this.registrationService.updateUsersData(this.user.email, this.user);
-  // }
-
-  // updateUser() {
-  //   this.registrationService.updateUsersData(this.user.email, this.user);
-  // }
-
-  // addMeals(meal: Meal) {}
-  // addActivities(activity: Activity) {}
-
-  // userLoggedIn(user: User) {
-  //   this.user = user;
-  //   this.user.token = true;
-  //   this.updateUser();
-  // }
-  // userLogOut() {
-  //   this.user.token = false;
-  //   this.updateUser();
-  // }
-  generateUniqueID(arr: Weight[]) {
+  generateUniqueID(arr: Meal[] | Weight[] | Activity[] = []): number {
     let id = 0;
     if (arr.length > 0) {
-      id = Math.max(...arr.map((item) => item.id));
+      id = Math.max(
+        ...(arr as Array<Meal | Weight | Activity>).map(
+          (item: Meal | Weight | Activity) => item.id
+        )
+      );
       id++;
     }
     return id;
+  }
+
+  getTodayTotalCalories(val: Meal[] | Activity[], givenDate?) {
+    let total: number = 0;
+    const todayDate = !givenDate ? this.getCurrentDate() : givenDate;
+
+    val.forEach((el) => {
+      if (String(el.date) === todayDate) {
+        total += +el.calories;
+      }
+    });
+    return total;
   }
 
   getCurrentDate() {
@@ -59,5 +43,55 @@ export class UserService {
 
     let Today = year + '-' + month + '-' + day;
     return Today;
+  }
+
+  //generates message for weight, meal and activity
+  generateMessage(
+    current: number,
+    desired: number,
+    wantsToGainWeight: boolean,
+    user: string,
+    unit: string,
+    unitName: string
+  ) {
+    let message;
+    if (desired > current && wantsToGainWeight) {
+      message = `${
+        desired - current
+      } ${unit} left to your desired ${unitName}, continue good
+            Work ${this.capitalizeFirstLetter(user)}!`;
+    }
+    if (current > desired && wantsToGainWeight) {
+      message = `${this.capitalizeFirstLetter(
+        this.capitalizeFirstLetter(user)
+      )} congratulation You have reached your desired ${unitName} + ${Math.abs(
+        desired - current
+      )} ${unit}`;
+    }
+
+    if (current > desired && !wantsToGainWeight) {
+      message = ` you need to lose ${
+        current - desired
+      } ${unit} for your desired ${unitName}, continue good
+            Work ${this.capitalizeFirstLetter(user)}!`;
+    }
+    if (current < desired && !wantsToGainWeight) {
+      message = `${this.capitalizeFirstLetter(
+        user
+      )} congratulation Your desired daily ${unitName} are lower than your daily ${unitName}  - ${Math.abs(
+        desired - current
+      )} ${unit}`;
+    }
+
+    if (current === desired) {
+      message = ` Congratulation for your great work  ${this.capitalizeFirstLetter(
+        user
+      )}!`;
+    }
+
+    return message;
+  }
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }

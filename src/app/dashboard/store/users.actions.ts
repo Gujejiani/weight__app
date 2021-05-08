@@ -16,6 +16,7 @@ export const DESIRED_ACTIVITY_ADDED = 'DESIRED_ACTIVITY_ADDED';
 export const AUTO_LOGIN = 'AUTO_LOGIN';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const FETCHING_ONLY_USERS = 'FETCHING_ONLY_USERS ';
+export const USER_REGISTERED = 'USER_REGISTERED';
 export class fetchingUserAndUsers implements Action {
   readonly type = FETCHING_USERS;
   constructor(public payload: { users: User[]; loggedUser: User }) {}
@@ -67,6 +68,10 @@ export class fetchingOnlyUsers implements Action {
   readonly type = FETCHING_ONLY_USERS;
   constructor(public payload: { users: User[] }) {}
 }
+export class userRegistered implements Action {
+  readonly type = USER_REGISTERED;
+  constructor(public payload: { user: User }) {}
+}
 export type UsersAction =
   | fetchingUserAndUsers
   | updateUser
@@ -78,4 +83,5 @@ export type UsersAction =
   | desiredActivityAdded
   | LoggedOut
   | autoLogin
-  | fetchingOnlyUsers;
+  | fetchingOnlyUsers
+  | userRegistered;
