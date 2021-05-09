@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { ActivityItemComponent } from '../dashboard/activity/activity-item/activity-item.component';
 import { ActivityComponent } from '../dashboard/activity/activity.component';
+import { DashboardCardComponent } from '../dashboard/dashboard-card/dashboard-card.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HistoryComponent } from '../dashboard/history/history.component';
 import { MealComponent } from '../dashboard/meals/meal/meal.component';
@@ -28,7 +29,13 @@ const routes: Routes = [
     MealComponent,
     WeightComponent,
     WeightItemComponent,
+    DashboardCardComponent,
   ],
-  imports: [RouterModule.forChild(routes), CommonModule, FormsModule],
+  imports: [
+    RouterModule.forChild(routes),
+    CommonModule,
+    FormsModule,
+    RouterModule,
+  ],
 })
 export class ProfileModule {}

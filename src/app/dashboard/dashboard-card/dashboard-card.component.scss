@@ -1,0 +1,117 @@
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  display: none;
+  &--show {
+    opacity: 1;
+  }
+  @media (max-width: 695px) {
+    justify-content: center;
+  }
+
+  &__title {
+    color: #000;
+  }
+  &__table {
+    position: absolute;
+    right: 0;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #187584;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid #3d5278;
+    top: 100px;
+  }
+  &__date {
+    display: block;
+    text-align: right;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  &__card {
+    background-image: linear-gradient(#53b8cf, #2f7889);
+    border-radius: 16px;
+    padding: 10px 20px;
+    max-width: 300px;
+    min-width: 300px;
+    min-height: 400px;
+    margin-bottom: 30px;
+
+    &--meal {
+      background-image: linear-gradient(#a26fba, #392542);
+    }
+    &--activity {
+      background-image: linear-gradient(#d07365, #7f4238);
+    }
+    &__title {
+      margin: 15px 0;
+      margin-top: 5px;
+    }
+
+    &__content {
+      display: flex;
+      justify-content: space-between;
+      min-width: 200px;
+
+      &__left {
+        flex: 1;
+        border-right: 2px solid #ffffff;
+        padding: 10px 15px;
+      }
+      &__right {
+        flex: 1;
+        padding: 10px 15px;
+      }
+      &__unit {
+        font-size: 30px;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        font-weight: bold;
+        &--greater {
+          color: #16df0f;
+        }
+        &--lower {
+          color: #d3290b;
+        }
+      }
+
+      &__type {
+        font-size: 13px;
+        color: #fff;
+      }
+      &__current {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: block;
+      }
+      &__button {
+        border-radius: 10px;
+        padding: 5px 0;
+        margin-top: 10px;
+        width: 90%;
+        color: #fff;
+        background-color: #0d2f68;
+        border: 1px solid transparent;
+        outline: none;
+        cursor: pointer;
+        &--meal {
+          background-color: #fa68d8;
+        }
+        &--weight {
+          background-color: #21a1c2;
+        }
+        &--activity {
+          background-color: #c79d12;
+        }
+      }
+    }
+    &__description {
+      margin: 70px 0;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+  }
+}
