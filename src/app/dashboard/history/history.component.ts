@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/auth/store/auth.reducer';
 import { User } from 'src/app/profile/user.modal';
-import { UserService } from 'src/app/shared/user.service';
 
 interface History {
   date?: string;
@@ -16,15 +15,11 @@ interface History {
   styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnInit {
-  constructor(
-    private userService: UserService,
-    private store: Store<{ auth: State }>
-  ) {}
+  constructor(private store: Store<{ auth: State }>) {}
   dates: string[] = [];
-  user: User;
+  @Input() user: User;
   histories: History[] = [];
   history: History = {};
-
   desiredWeight: number;
   desiredActivity: number;
   desiredMeal: number;
@@ -34,17 +29,17 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     // this.user = this.userService.user;
-    this.store.select('auth').subscribe((authData) => {
-      if (!authData.user) return;
-      this.user = authData.user;
-      console.log(this.user);
-      this.getDates(this.user.activities);
-      this.getDates(this.user.weights);
-      this.getDates(this.user.meals);
-      this.addDatesToHistory();
-      this.getDesiredInputs();
-      this.addDataToHistory();
-    });
+    console.log('history on init');
+
+    if (!this.user) return;
+
+    console.log(this.user);
+    this.getDates(this.user.activities);
+    this.getDates(this.user.weights);
+    this.getDates(this.user.meals);
+    this.addDatesToHistory();
+    this.getDesiredInputs();
+    this.addDataToHistory();
   }
 
   getDates(arr) {

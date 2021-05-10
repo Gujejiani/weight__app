@@ -10,6 +10,9 @@
       <li class="history__titles__title">Activities</li>
     </ul>
     <div>
+      <h3 *ngIf="histories.length === 0" class="history__message">
+        History is Empty
+      </h3>
       <ul *ngFor="let history of histories" class="history__items">
         <li class="history__items__item">{{ history.date }}</li>
 

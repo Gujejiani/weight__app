@@ -4,10 +4,10 @@ import { ActivityComponent } from './dashboard/activity/activity.component';
 import { MealsComponent } from './dashboard/meals/meals.component';
 import { WeightComponent } from './dashboard/weight/weight.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthGuard } from './shared/auth-guard/auth-guard.service';
-import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
+import { AuthGuard } from './auth/auth-guard/auth-guard.service';
+import { CanDeactivateGuard } from './auth/saved-guard/saved-guard.service';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { LoggedInGuard } from './shared/auth-guard/logged-in.guard';
+import { LoggedInGuard } from './auth/auth-guard/logged-in.guard';
 const routes: Routes = [
   { path: '', component: WelcomeComponent, canActivate: [LoggedInGuard] },
 

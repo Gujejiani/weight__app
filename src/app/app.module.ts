@@ -6,14 +6,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthGuard } from './shared/auth-guard/auth-guard.service';
-import { CanDeactivateGuard } from './shared/saved-guard/saved-guard.service';
+import { AuthGuard } from './auth/auth-guard/auth-guard.service';
+import { CanDeactivateGuard } from './auth/saved-guard/saved-guard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedModule } from './shared/shared.module';
 import { appReducer } from './store/app.reducer';
+import { AuthInterceptorService } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [

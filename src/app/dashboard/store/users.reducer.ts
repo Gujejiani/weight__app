@@ -1,21 +1,16 @@
-import { Action } from 'rxjs/internal/scheduler/Action';
 import { User } from 'src/app/profile/user.modal';
-import * as ActionTypes from './users.actions';
-
+import * as ActionTypes from './actionTypes';
+import { UsersAction } from './users.actions';
 export interface State {
   users: User[];
   user: User;
 }
-
 const initialState: State = {
   users: [],
   user: null,
 };
 
-export function usersReducer(
-  state: State = initialState,
-  action: ActionTypes.UsersAction
-) {
+export function usersReducer(state: State = initialState, action: UsersAction) {
   const userCopy = { ...state.user };
   const desiredCopy = { ...userCopy.desired };
   switch (action.type) {
@@ -56,7 +51,6 @@ export function usersReducer(
         return state;
       }
     case ActionTypes.WEIGHTS_UPDATE:
-      console.log('xaaxxxxxxxxxxxxxxxxxx ', action.payload.weights);
       userCopy.weights = action.payload.weights;
       return {
         ...state,
@@ -92,7 +86,7 @@ export function usersReducer(
       };
     case ActionTypes.DESIRED_ACTIVITY_ADDED:
       desiredCopy.activity = action.payload.desiredActivity;
-      console.log(desiredCopy);
+
       userCopy.desired = desiredCopy;
       return {
         ...state,

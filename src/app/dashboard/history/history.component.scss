@@ -13,19 +13,29 @@
   }
 }
 .history {
-  background-color: rgb(39, 32, 32);
+  background-color: rgb(20, 34, 44);
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 25;
-  max-height: 500px;
+  max-height: 300px;
 
   overflow: auto;
+  &__message {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 20px;
+    color: rgb(193, 164, 164);
+    @media (max-width: 765px) {
+      font-size: 15px;
+    }
+  }
   &__titles {
     display: flex;
-
+    position: sticky;
+    top: 0;
     border-bottom: 1px solid #fff;
-
+    background-color: rgb(20, 34, 44);
     &__title {
       padding: 10px 0;
       flex: 1;
@@ -37,9 +47,9 @@
     display: flex;
 
     border-bottom: 1px solid #fff;
-
+    background-color: rgb(7, 53, 54);
     &:hover {
-      background-color: lighten($color: rgb(39, 32, 32), $amount: 10);
+      background-color: lighten($color: rgb(7, 53, 54), $amount: 5);
     }
     &__item {
       flex: 1;

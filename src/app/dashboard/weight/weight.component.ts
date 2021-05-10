@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { CanComponentDeactivate } from 'src/app/shared/saved-guard/saved-guard.service';
+import { CanComponentDeactivate } from 'src/app/auth/saved-guard/saved-guard.service';
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Weight } from './weight.modal';

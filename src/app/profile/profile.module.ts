@@ -11,7 +11,7 @@ import { MealComponent } from '../dashboard/meals/meal/meal.component';
 import { MealsComponent } from '../dashboard/meals/meals.component';
 import { WeightItemComponent } from '../dashboard/weight/weight-item/weight-item.component';
 import { WeightComponent } from '../dashboard/weight/weight.component';
-import { AuthGuard } from '../shared/auth-guard/auth-guard.service';
+import { AuthGuard } from '../auth/auth-guard/auth-guard.service';
 import { ProfileComponent } from './profile.component';
 
 const routes: Routes = [

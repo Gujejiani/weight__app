@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   todayTotalActivity: number = 0;
   desiredActivity: number = 0;
   activityMessage: string;
-
   date: string;
   showUserHistory: boolean = false;
   constructor(

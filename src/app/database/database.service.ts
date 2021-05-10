@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { User } from '../profile/user.modal';
@@ -7,8 +7,11 @@ import * as AuthActions from '../auth/store/auth.actions';
 import * as UsersActions from '../dashboard/store/users.actions';
 import { AppState } from '../store/app.reducer';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
+  tokenExpired = new Subject<any>();
   constructor(
     private http: HttpClient,
     private store: Store<AppState>,
@@ -46,7 +49,7 @@ export class DatabaseService {
             return users;
           } else {
             console.log(res);
-            console.log('ahahah');
+
             this.addMealWeightActivityArrays(res);
             return res;
           }
@@ -83,7 +86,9 @@ export class DatabaseService {
           }
         },
         (err) => {
-          console.log(err);
+          console.log(err.error.error);
+          // if token is expired
+          this.checkTokenExpiration(err);
         }
       );
   }
@@ -106,6 +111,7 @@ export class DatabaseService {
           },
           (err) => {
             console.log(err);
+            this.checkTokenExpiration(err);
           }
         );
     });
@@ -120,5 +126,12 @@ export class DatabaseService {
         ? (user.activities = user.activities)
         : (user.activities = []);
     });
+  }
+
+  checkTokenExpiration(err) {
+    if (err.error.error === 'Auth token is expired') {
+      // this.tokenExpired.next();
+      this.store.dispatch(new AuthActions.userLogOut());
+    }
   }
 }

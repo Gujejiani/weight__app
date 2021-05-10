@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Activity } from '../dashboard/activity/activity.modal';
 import { Meal } from '../dashboard/meals/meal.modal';
 import { Weight } from '../dashboard/weight/weight.modal';
@@ -7,7 +6,6 @@ import { User } from '../profile/user.modal';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  changeDesiredWeight = new Subject<void>();
   public user: User;
 
   generateUniqueID(arr: Meal[] | Weight[] | Activity[] = []): number {
