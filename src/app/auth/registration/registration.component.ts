@@ -6,7 +6,7 @@ import { DatabaseService } from 'src/app/database/database.service';
 import { User } from '../../profile/user.modal';
 import { AuthService } from '../auth.service';
 import { State } from '../store/auth.reducer';
-import * as UserActions from '../../dashboard/store/users.actions';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -78,7 +78,6 @@ export class RegistrationComponent implements OnInit {
             this.user
           );
           this.database.updateUsers(); //sending registered user
-          // this.database.saveDataToFirebase(this.user, resData.idToken);
         },
         (err) => {
           this.userAlreadyRegistered = true;
@@ -86,15 +85,6 @@ export class RegistrationComponent implements OnInit {
           this.loading = false;
         }
       );
-      // if (this.registrationService.getUserData(this.user.email)) {
-      //   console.log('user already exits');
-      //   this.userAlreadyRegistered = true;
-      //   this.userEmail = form.email;
-      // } else {
-      //   this.registrationService.userRegistered(this.user);
-      //   this.userAlreadyRegistered = false;
-      //   this.router.navigate(['/login']);
-      // }
     }
   }
 }

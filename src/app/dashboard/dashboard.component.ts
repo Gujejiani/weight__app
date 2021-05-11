@@ -32,7 +32,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('dashboard');
     this.store.select('data').subscribe((authData) => {
       this.user = authData.user;
     });

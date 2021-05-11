@@ -25,9 +25,9 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   desiredMealMode: boolean = false;
   prevDesiredMeal: number = 0;
   changesSaved: boolean = true;
+  desiredMeal = 0;
   constructor(
     private userService: UserService,
-
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
@@ -38,8 +38,10 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
     // this.mealService.restart();
     this.store.select('data').subscribe((usersData) => {
       // this.mealService.meals = this.userService.user.meals;
+      if (!usersData.user) return;
       this.meals = usersData.user.meals;
       this.username = usersData.user.name;
+      this.desiredMeal = usersData.user.desired.meal || 0;
       this.counter = this.meals.length;
       const desiredMode = this.activatedRoute.snapshot.queryParams.desiredMode;
 

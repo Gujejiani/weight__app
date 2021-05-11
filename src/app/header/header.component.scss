@@ -33,6 +33,9 @@
     display: flex;
 
     &__li {
+      &--hide {
+        display: none;
+      }
       &__link {
         color: rgb(173, 167, 167);
         cursor: pointer;

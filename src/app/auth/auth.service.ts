@@ -93,7 +93,6 @@ export class AuthService {
   }
 
   autoLogout(expirationTime) {
-    console.log('logouts in ' + expirationTime);
     this.timer = setTimeout(() => {
       this.logout();
     }, expirationTime);
@@ -127,19 +126,19 @@ export class AuthService {
 
   private errorHandling(errorResponse: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred';
-    console.log(errorResponse);
+
     if (!errorResponse.error || !errorResponse.error.error) {
       return throwError(errorMessage);
     }
     switch (errorResponse.error.error.message) {
       case 'EMAIL_EXISTS':
-        errorMessage = 'This Email is already exist';
+        errorMessage = 'This Email  already exist';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'password is invalid';
+        errorMessage = 'Password is invalid';
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'email does not exist';
+        errorMessage = 'Email does not exist';
         break;
     }
     return throwError(errorMessage);

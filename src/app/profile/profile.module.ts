@@ -13,6 +13,7 @@ import { WeightItemComponent } from '../dashboard/weight/weight-item/weight-item
 import { WeightComponent } from '../dashboard/weight/weight.component';
 import { AuthGuard } from '../auth/auth-guard/auth-guard.service';
 import { ProfileComponent } from './profile.component';
+import { ZeroDirective } from '../dashboard/zero.directive';
 
 const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: ProfileComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
     WeightComponent,
     WeightItemComponent,
     DashboardCardComponent,
+    ZeroDirective,
   ],
   imports: [
     RouterModule.forChild(routes),

@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from 'src/app/auth/store/auth.reducer';
 import { User } from 'src/app/profile/user.modal';
 
 interface History {
@@ -15,7 +13,6 @@ interface History {
   styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnInit {
-  constructor(private store: Store<{ auth: State }>) {}
   dates: string[] = [];
   @Input() user: User;
   histories: History[] = [];
@@ -29,11 +26,9 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     // this.user = this.userService.user;
-    console.log('history on init');
 
     if (!this.user) return;
 
-    console.log(this.user);
     this.getDates(this.user.activities);
     this.getDates(this.user.weights);
     this.getDates(this.user.meals);
@@ -66,7 +61,6 @@ export class HistoryComponent implements OnInit {
       history.weight = +weight?.weight || 0;
     });
 
-    console.log(this.histories);
     this.histories.forEach((history) => {
       this.getHistoryDataForMealAndActivity(history, this.user.meals, 'meal');
       this.getHistoryDataForMealAndActivity(

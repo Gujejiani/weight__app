@@ -38,7 +38,7 @@ export class DatabaseService {
         map((res) => {
           if (!Array.isArray(res)) {
             //in case if firebase returns data with string property
-            console.log(res);
+
             const users = [];
             for (let key in res) {
               users.push({ ...res[key][0] });
@@ -48,8 +48,6 @@ export class DatabaseService {
 
             return users;
           } else {
-            console.log(res);
-
             this.addMealWeightActivityArrays(res);
             return res;
           }
@@ -57,16 +55,13 @@ export class DatabaseService {
       )
       .subscribe(
         (users: User[]) => {
-          console.log(users);
           const loggedUser: User = users.find((user) => user.email === email);
 
           if (loggedUser) {
-            console.log(loggedUser, '   logged User');
             loggedUser.token = token;
           }
 
           if (onlyUsers) {
-            console.log('only users');
             this.store.dispatch(
               new UsersActions.fetchingOnlyUsers({ users: users })
             );
@@ -86,7 +81,6 @@ export class DatabaseService {
           }
         },
         (err) => {
-          console.log(err.error.error);
           // if token is expired
           this.checkTokenExpiration(err);
         }
@@ -106,9 +100,7 @@ export class DatabaseService {
           usersData.users
         )
         .subscribe(
-          (res) => {
-            console.log(res);
-          },
+          (res) => {},
           (err) => {
             console.log(err);
             this.checkTokenExpiration(err);
@@ -118,7 +110,6 @@ export class DatabaseService {
   }
 
   addMealWeightActivityArrays(users: User[]): void {
-    console.log(users + ' users');
     users.forEach((user) => {
       user.weights ? (user.weights = user.weights) : (user.weights = []);
       user.meals ? (user.meals = user.meals) : (user.meals = []);
@@ -132,6 +123,7 @@ export class DatabaseService {
     if (err.error.error === 'Auth token is expired') {
       // this.tokenExpired.next();
       this.store.dispatch(new AuthActions.userLogOut());
+      localStorage.removeItem('userData');
     }
   }
 }

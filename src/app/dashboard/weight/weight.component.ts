@@ -18,7 +18,8 @@ import { ThisReceiver } from '@angular/compiler';
   styleUrls: ['./weight.component.scss'],
 })
 export class WeightComponent
-  implements OnInit, CanComponentDeactivate, OnDestroy {
+  implements OnInit, CanComponentDeactivate, OnDestroy
+{
   alreadyExists: boolean = false;
   @ViewChild('f') ngForm: NgForm;
   weight: Weight;

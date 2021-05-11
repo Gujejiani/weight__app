@@ -87,6 +87,11 @@ export class UserService {
       )}!`;
     }
 
+    if (current === 0 && desired !== 0) {
+      message = `Please Enter Today ${unitName} ${this.capitalizeFirstLetter(
+        user
+      )}`;
+    }
     return message;
   }
   capitalizeFirstLetter(string) {

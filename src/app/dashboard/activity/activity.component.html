@@ -8,7 +8,7 @@
     *ngIf="!desiredActivityMode"
     (click)="onActivityModal()"
     type="button"
-    class="btn__counter"
+    class="btn__counter activity__counter"
   >
     Activity history ({{ counter }})
   </button>
@@ -24,7 +24,7 @@
     ></app-activity-item>
     <form (ngSubmit)="onSubmit()" #f="ngForm" class="weight__form">
       <label class="weight__form__desired" *ngIf="!desiredActivityMode"
-        >Your Desired Activity is {{ "1200cl" }}</label
+        >Your Desired Activity is {{ desiredActivity }}</label
       >
 
       <div class="weight__form__icon">
@@ -79,7 +79,7 @@
           pattern="^[1-9]+[0-9]*$"
           name="calories"
           #cal="ngModel"
-          maxlength="6"
+          maxlength="4"
           minlength="1"
           [(ngModel)]="prevDesired"
         />

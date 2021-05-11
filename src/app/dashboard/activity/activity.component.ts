@@ -23,6 +23,7 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
   counter: number = 0;
   username: string;
   prevDesired: number = 0;
+  desiredActivity;
   @ViewChild('f') ngForm: NgForm;
   defaultOption = 'running';
   desiredActivityMode: boolean = false;
@@ -41,9 +42,12 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
       .select('data')
       .pipe(map((userData) => userData.user))
       .subscribe((user) => {
+        if (!user) return;
+
         this.activities = user.activities;
         this.counter = this.activities.length;
         this.username = user.name;
+        this.desiredActivity = user.desired.activity;
         if (this.activatedRoute.snapshot.queryParams.desiredMode) {
           this.desiredActivityMode = true;
         } else {

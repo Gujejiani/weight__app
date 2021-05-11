@@ -76,6 +76,8 @@
             ? 'dashboard__card__content__unit--greater'
             : 'dashboard__card__content__unit--lower'
         "
+        appZero
+        elementValue="current"
         >{{ current }}
         <span class="dashboard__card__content__type">{{
           type === "weight" ? "kg" : "cl"
@@ -89,6 +91,8 @@
             ? 'dashboard__card__content__unit--lower'
             : 'dashboard__card__content__unit--greater'
         "
+        appZero
+        elementValue="current"
         >{{ current }}
         <span class="dashboard__card__content__type">{{
           type === "weight" ? "kg" : "cl"
@@ -100,14 +104,20 @@
       >
       <a *ngIf="type === 'meal'" routerLink="meal">
         <button
-          class="dashboard__card__content__button dashboard__card__content__button--meal"
+          class="
+            dashboard__card__content__button
+            dashboard__card__content__button--meal
+          "
         >
           add
         </button></a
       >
       <a *ngIf="type === 'activity'" routerLink="activity">
         <button
-          class="dashboard__card__content__button dashboard__card__content__button--activity"
+          class="
+            dashboard__card__content__button
+            dashboard__card__content__button--activity
+          "
         >
           add
         </button></a
@@ -127,7 +137,10 @@
         [queryParams]="{ desiredMode: true }"
       >
         <button
-          class="dashboard__card__content__button dashboard__card__content__button--weight"
+          class="
+            dashboard__card__content__button
+            dashboard__card__content__button--weight
+          "
         >
           change
         </button></a
@@ -138,7 +151,10 @@
         [queryParams]="{ desiredMode: true }"
       >
         <button
-          class="dashboard__card__content__button dashboard__card__content__button--weight"
+          class="
+            dashboard__card__content__button
+            dashboard__card__content__button--weight
+          "
         >
           change
         </button></a

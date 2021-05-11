@@ -26,13 +26,10 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const { email, password } = this.formData.value.form;
-    console.log('ahjaha');
+
     this.auth.login(email, password).subscribe(
       (resData) => {
-        console.log(resData);
-        console.log('dadam');
         this.router.navigate(['dashboard']);
-
         this.loading = false;
         this.database.getDataFromFirebase(resData.idToken, email);
       },
@@ -42,18 +39,6 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
-
-    // const confirmation: {
-    //   login: boolean;
-    //   message: string;
-    // } = this.loginService.login(email, password);
-    // if (confirmation.login === false) {
-    //   this.invalidUser = true;
-    //   this.message = confirmation.message;
-    // }
-    // if (confirmation.login === true) {
-    //   this.router.navigate(['dashboard']);
-    // }
   }
 
   onClick() {

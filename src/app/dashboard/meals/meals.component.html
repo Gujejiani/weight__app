@@ -8,7 +8,7 @@
     *ngIf="!desiredMealMode"
     (click)="onMealModal()"
     type="button"
-    class="btn__counter"
+    class="btn__counter btn__meal"
   >
     Meal history ({{ counter }})
   </button>
@@ -21,7 +21,7 @@
     ></app-meal>
     <form (ngSubmit)="onSubmit()" #f="ngForm" class="weight__form">
       <label class="weight__form__desired" *ngIf="!desiredMealMode"
-        >Your Desired Meal is {{ "1200cl" }}</label
+        >Your Desired Meal is {{ desiredMeal }}</label
       >
 
       <div class="weight__form__icon">
@@ -83,7 +83,7 @@
           pattern="^[1-9]+[0-9]*$"
           name="calories"
           #cal="ngModel"
-          maxlength="6"
+          maxlength="4"
           minlength="1"
           [(ngModel)]="prevDesiredMeal"
         />

@@ -4,8 +4,12 @@
       <img class="nav__img" src="./assets/LOGO.svg" alt="ss" />
     </a>
     <ul class="nav__list">
-      <li *ngIf="loggedIn" class="nav__list__li">
+      <li
+        [ngClass]="{ 'nav__list__li--hide': !loggedIn }"
+        class="nav__list__li"
+      >
         <a
+          [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/dashboard"
           class="nav__list__li__link nav__list__li__link--dashboard"
           routerLinkActive="nav__list__li__link--active"
