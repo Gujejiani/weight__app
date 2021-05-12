@@ -1,12 +1,6 @@
 .dashboard {
-  display: flex;
-  justify-content: space-between;
-  display: none;
   &--show {
     opacity: 1;
-  }
-  @media (max-width: 695px) {
-    justify-content: center;
   }
 
   &__title {

@@ -18,13 +18,14 @@
   margin-top: 50px;
   justify-content: space-between;
   flex-wrap: wrap;
-
   position: relative;
-
+  @media (min-width: 1600px) {
+    justify-content: space-around;
+  }
   &--show {
     opacity: 1;
   }
-  @media (max-width: 695px) {
+  @media (max-width: 795px) {
     justify-content: center;
   }
 
