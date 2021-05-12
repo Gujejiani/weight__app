@@ -47,7 +47,6 @@
           class="history__items__item"
         >
           {{ history.weight }}
-          <span class="history__items__item__unit"> kg</span>
         </li>
         <li
           [ngStyle]="{
@@ -55,7 +54,7 @@
           }"
           class="history__items__item"
         >
-          {{ history.meals ? history.meals : 0 }} cl
+          {{ history.meals ? history.meals : 0 }}
         </li>
         <li
           [ngStyle]="{
@@ -66,7 +65,7 @@
           }"
           class="history__items__item"
         >
-          {{ history.activity ? history.activity : 0 }} cl
+          {{ history.activity ? history.activity : 0 }}
         </li>
       </ul>
     </div>
