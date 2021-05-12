@@ -4,10 +4,34 @@
 >
   <div class="history">
     <ul class="history__titles">
-      <li class="history__titles__title">Date</li>
-      <li class="history__titles__title">Weight</li>
-      <li class="history__titles__title">Meals</li>
-      <li class="history__titles__title">Activities</li>
+      <li class="history__titles__title">
+        Date
+        <i
+          class="fas fa-sort-amount-down history__titles__title__sort"
+          (click)="sortByDate()"
+        ></i>
+      </li>
+      <li class="history__titles__title">
+        Weight
+        <i
+          class="fas fa-sort-amount-down history__titles__title__sort"
+          (click)="sortByWeight()"
+        ></i>
+      </li>
+      <li class="history__titles__title">
+        Meals
+        <i
+          class="fas fa-sort-amount-down history__titles__title__sort"
+          (click)="sortByMeal()"
+        ></i>
+      </li>
+      <li class="history__titles__title">
+        Activities
+        <i
+          class="fas fa-sort-amount-down history__titles__title__sort"
+          (click)="sortByActivity()"
+        ></i>
+      </li>
     </ul>
     <div>
       <h3 *ngIf="histories.length === 0" class="history__message">
@@ -23,6 +47,7 @@
           class="history__items__item"
         >
           {{ history.weight }}
+          <span class="history__items__item__unit"> kg</span>
         </li>
         <li
           [ngStyle]="{
@@ -30,7 +55,7 @@
           }"
           class="history__items__item"
         >
-          {{ history.meals ? history.meals : 0 }}
+          {{ history.meals ? history.meals : 0 }} cl
         </li>
         <li
           [ngStyle]="{
@@ -41,38 +66,9 @@
           }"
           class="history__items__item"
         >
-          {{ history.activity ? history.activity : 0 }}
+          {{ history.activity ? history.activity : 0 }} cl
         </li>
       </ul>
     </div>
-    <!-- <ng-template #wantsToLose>
-      <ul *ngFor="let history of histories" class="history__items">
-        <li class="history__items__item">{{ history.date }}</li>
-        <li
-          [ngStyle]="{
-            color: history.weight < desiredWeight ? '#16df0f' : '#d3290b'
-          }"
-          class="history__items__item"
-        >
-          {{ history.weight }}
-        </li>
-        <li
-          [ngStyle]="{
-            color: history.meals < desiredMeal ? '#16df0f' : '#d3290b'
-          }"
-          class="history__items__item"
-        >
-          {{ history.meals ? history.meals : 0 }}
-        </li>
-        <li
-          [ngStyle]="{
-            color: history.activity < desiredActivity ? '#16df0f' : '#d3290b'
-          }"
-          class="history__items__item"
-        >
-          {{ history.activity ? history.activity : 0 }}
-        </li>
-      </ul>
-    </ng-template> -->
   </div>
 </div>

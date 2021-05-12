@@ -24,6 +24,51 @@ export class HistoryComponent implements OnInit {
 
   @Input() showHistory: boolean;
 
+  sortByDate() {
+    this.histories.sort((a, b) => {
+      if (new Date(a.date) > new Date(b.date)) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  }
+  sortByWeight() {
+    this.histories.sort((a, b) => {
+      let num1: number = a.weight || 0;
+      let num2: number = b.weight || 0;
+
+      if (+num1 > +num2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  }
+
+  sortByMeal() {
+    this.histories.sort((a, b) => {
+      let num1: number = a.meals || 0;
+      let num2: number = b.meals || 0;
+      if (num1 > num2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  }
+  sortByActivity() {
+    this.histories.sort((a, b) => {
+      let num1: number = a.activity || 0;
+      let num2: number = b.activity || 0;
+      if (num1 > num2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  }
+
   ngOnInit(): void {
     if (!this.user) return;
 

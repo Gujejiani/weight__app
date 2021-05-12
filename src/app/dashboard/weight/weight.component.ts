@@ -3,14 +3,12 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-
 import { CanComponentDeactivate } from 'src/app/auth/saved-guard/saved-guard.service';
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Weight } from './weight.modal';
-import * as UserActions from '../store/users.actions';
 
-import { DatabaseService } from 'src/app/database/database.service';
+import { WeightService } from './weight.service';
 
 @Component({
   selector: 'app-weight',
@@ -40,7 +38,8 @@ export class WeightComponent
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private database: DatabaseService
+
+    private weightService: WeightService
   ) {}
 
   ngOnInit(): void {
@@ -79,52 +78,29 @@ export class WeightComponent
       this.weight = new Weight(maxId, date, weight);
       this.alreadyExists = false;
 
-      const weights: Weight[] = [...this.weights];
-      weights.push(this.weight);
-      this.store.dispatch(
-        new UserActions.weightsArrayUpdate({ weights: weights })
-      );
-      this.updateState();
+      this.weightService.addWeight(this.weights, this.weight);
     } else {
       this.alreadyExists = true;
     }
     this.resetForm();
   }
   onDelete() {
-    const date = this.ngForm.value.date;
-    const index = this.weights.findIndex(
-      (weight) => String(weight.date) === date
-    );
-    const weights: Weight[] = [...this.weights];
-    weights.splice(index, 1);
-
-    this.store.dispatch(
-      new UserActions.weightsArrayUpdate({ weights: weights })
-    );
-
+    this.weightService.deleteWeight(this.weights, +this.weight.id);
     this.resetForm();
-    this.updateState();
+    this.changesSaved = true;
   }
   onUpdate() {
     const weight = this.ngForm.value.weight;
     const date = this.ngForm.value.date;
-
-    console.log('problem occurs');
-    const weights: Weight[] = [...this.weights];
-    console.log('problem end');
-    const index = weights.findIndex((weight) => weight.id === this.weight.id);
-    weights[index] = new Weight(this.weight.id, date, weight);
-    this.store.dispatch(
-      new UserActions.weightsArrayUpdate({ weights: weights })
+    this.weightService.updateWeights(
+      this.weights,
+      new Weight(this.weight.id, date, weight),
+      this.weight.id
     );
-    this.updateState();
+
     this.resetForm();
     this.router.navigate(['dashboard']);
     this.changesSaved = true;
-  }
-  updateState() {
-    this.store.dispatch(new UserActions.updateUser());
-    this.database.updateUsers();
   }
 
   resetForm() {
@@ -151,23 +127,20 @@ export class WeightComponent
 
   saveDesired() {
     const desiredWeight = +this.ngForm.value.weight;
+    this.weightService.addDesiredWeight(+desiredWeight);
 
-    this.store.dispatch(
-      new UserActions.desiredWeightAdded({ desiredWeight: desiredWeight })
-    );
-    this.updateState();
     this.router.navigate(['/dashboard']);
   }
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    console.log(this.changesSaved);
     if (this.changesSaved) {
       return true;
     }
-
-    if (!this.changesSaved && this.weight.weight !== this.ngForm.value.weight) {
-      return confirm('do you want to discard changes?');
-    } else {
-      return true;
-    }
+    return this.weightService.canDeactivate(
+      this.changesSaved,
+      +this.weight.weight,
+      +this.ngForm.value.weight
+    );
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

@@ -3,13 +3,12 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { DatabaseService } from 'src/app/database/database.service';
 import { CanComponentDeactivate } from 'src/app/auth/saved-guard/saved-guard.service';
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Activity } from './activity.modal';
-import * as UserActions from '../store/users.actions';
 import { map } from 'rxjs/operators';
+import { ActivityService } from './activity.service';
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
@@ -34,7 +33,7 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private database: DatabaseService
+    private activityService: ActivityService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +42,6 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
       .pipe(map((userData) => userData.user))
       .subscribe((user) => {
         if (!user) return;
-
         this.activities = user.activities;
         this.counter = this.activities.length;
         this.username = user.name;
@@ -53,7 +51,6 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
         } else {
           this.desiredActivityMode = false;
         }
-
         if (user.desired.activity > 0 && this.desiredActivityMode) {
           this.prevDesired = +user.desired.activity;
         }
@@ -64,24 +61,17 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
   }
   addDesiredActivityCl() {
     const desiredActivity = this.ngForm.value.calories;
-    // this.userService.updateUser();
-    this.store.dispatch(
-      new UserActions.desiredActivityAdded({ desiredActivity: desiredActivity })
-    );
+    this.activityService.addDesiredActivity(+desiredActivity);
     this.ngForm.reset();
     this.router.navigate(['/dashboard']);
-    this.updateState();
   }
 
   onSubmit() {
-    const activities: Activity[] = [...this.activities];
     const { type, calories, date } = this.ngForm.value;
     const id = this.userService.generateUniqueID(this.activities);
     this.activity = new Activity(type, +calories, date, id);
-    activities.push(this.activity);
-    this.dispatchActivities(activities);
-    this.counter = this.activities.length;
-    this.ngForm.reset();
+    this.activityService.addActivity(this.activities, this.activity);
+    this.resetForm();
   }
   onActivityClicked(activity: Activity) {
     this.showActivities = false;
@@ -95,26 +85,21 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
     this.changesSaved = false;
   }
   updateActivity() {
-    const activities: Activity[] = [...this.activities];
     this.activity.date = this.ngForm.value.date;
     this.activity.type = this.ngForm.value.type;
     this.activity.calories = this.ngForm.value.calories;
-    const index = this.activities.findIndex(
-      (activity) => activity.id === this.activity.id
+    this.activityService.updateActivities(
+      this.activities,
+      this.activity,
+      +this.activity.id
     );
-    activities[index] = this.activity;
-    this.dispatchActivities(activities);
     this.resetForm();
     this.router.navigate(['/dashboard']);
     this.changesSaved = true;
   }
   deleteActivity() {
-    const activities: Activity[] = [...this.activities];
-    const deletedIndex = activities.findIndex(
-      (activity) => activity.id === this.activity.id
-    );
-    activities.splice(deletedIndex, 1);
-    this.dispatchActivities(activities);
+    this.activityService.deleteActivity(this.activities, +this.activity.id);
+
     this.resetForm();
     this.changesSaved = true;
   }
@@ -127,28 +112,14 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
     this.editMode = false;
   }
 
-  dispatchActivities(activities: Activity[]) {
-    this.store.dispatch(
-      new UserActions.activitiesArrayUpdate({ activities: activities })
-    );
-    this.updateState();
-  }
-  updateState() {
-    this.store.dispatch(new UserActions.updateUser());
-    this.database.updateUsers();
-  }
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.changesSaved) {
       return true;
     }
-
-    if (
-      !this.changesSaved &&
-      this.activity.calories !== this.ngForm.value.calories
-    ) {
-      return confirm('do you want to discard changes?');
-    } else {
-      return true;
-    }
+    return this.activityService.canDeactivate(
+      this.changesSaved,
+      +this.activity.calories,
+      +this.ngForm.value.calories
+    );
   }
 }

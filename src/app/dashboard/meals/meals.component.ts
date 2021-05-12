@@ -7,8 +7,7 @@ import { CanComponentDeactivate } from 'src/app/auth/saved-guard/saved-guard.ser
 import { UserService } from 'src/app/shared/user.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Meal } from './meal.modal';
-import * as UserActions from '../store/users.actions';
-import { DatabaseService } from 'src/app/database/database.service';
+import { MealService } from './meal.service';
 @Component({
   selector: 'app-meals',
   templateUrl: './meals.component.html',
@@ -31,7 +30,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
-    private database: DatabaseService
+    private mealService: MealService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +41,6 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
       this.desiredMeal = usersData.user.desired.meal || 0;
       this.counter = this.meals.length;
       const desiredMode = this.activatedRoute.snapshot.queryParams.desiredMode;
-
       if (+usersData.user.desired.meal > 0) {
         this.prevDesiredMeal = +usersData.user.desired.meal;
       }
@@ -55,7 +53,6 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
     });
   }
   onSubmit() {
-    const meals: Meal[] = [...this.meals];
     const { meal, calories, date } = this.ngForm.value;
     this.meal = new Meal(
       meal,
@@ -63,8 +60,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
       date,
       this.userService.generateUniqueID(this.meals)
     );
-    meals.push(this.meal);
-    this.dispatchMeals(meals);
+    this.mealService.addMeal(this.meals, this.meal);
     this.counter = this.meals.length;
     this.resetForm();
   }
@@ -76,14 +72,10 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   }
 
   updateMeal() {
-    const meals: Meal[] = [...this.meals];
     this.meal.date = this.ngForm.value.date;
     this.meal.name = this.ngForm.value.meal;
     this.meal.calories = this.ngForm.value.calories;
-    const index = meals.findIndex((meal) => meal.id === this.meal.id);
-    meals[index] = this.meal;
-
-    this.dispatchMeals(meals);
+    this.mealService.updateMeals(this.meals, this.meal, +this.meal.id);
     this.resetForm();
     this.router.navigate(['dashboard']);
     this.changesSaved = true;
@@ -94,21 +86,14 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   }
 
   deleteMeal() {
-    const meals: Meal[] = [...this.meals];
-    const deletedMealIndex = meals.findIndex(
-      (meal) => meal.id === this.meal.id
-    );
-    meals.splice(deletedMealIndex, 1);
-    this.dispatchMeals(meals);
+    this.mealService.deleteMeal(this.meals, +this.meal.id);
     this.resetForm();
     this.counter = this.meals.length;
+    this.changesSaved = true;
   }
   saveDesiredMeal() {
-    const desiredMeal = this.ngForm.value.calories;
-    this.store.dispatch(
-      new UserActions.desiredMealAdded({ desiredMeal: desiredMeal })
-    );
-    this.updateState();
+    const desiredMeal = +this.ngForm.value.calories;
+    this.mealService.addDesiredMeal(desiredMeal);
     this.ngForm.reset();
     this.router.navigate(['/dashboard']);
   }
@@ -124,26 +109,14 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
     this.changesSaved = false;
   }
 
-  dispatchMeals(meals: Meal[]) {
-    this.store.dispatch(new UserActions.mealsArrayUpdate({ meals: meals }));
-    this.updateState();
-  }
-  updateState() {
-    this.store.dispatch(new UserActions.updateUser());
-    this.database.updateUsers();
-  }
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.changesSaved) {
       return true;
     }
-
-    if (
-      !this.changesSaved &&
-      this.meal.calories !== this.ngForm.value.calories
-    ) {
-      return confirm('do you want to discard changes?');
-    } else {
-      return true;
-    }
+    return this.mealService.canDeactivate(
+      this.changesSaved,
+      +this.meal.calories,
+      +this.ngForm.value.calories
+    );
   }
 }

@@ -41,13 +41,28 @@
       flex: 1;
       text-align: center;
       border-left: 1px solid #fff;
+      position: relative;
+      @media (max-width: 725px) {
+        font-size: 13px;
+      }
+      &__sort {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgb(12, 186, 189);
+        cursor: pointer;
+        @media (max-width: 725px) {
+          right: 2px;
+        }
+      }
     }
   }
   &__items {
     display: flex;
 
     border-bottom: 1px solid #fff;
-    background-color: rgb(7, 53, 54);
+    background-color: rgb(3, 50, 61);
     &:hover {
       background-color: lighten($color: rgb(7, 53, 54), $amount: 5);
     }
@@ -56,6 +71,9 @@
       padding: 10px 0;
       text-align: center;
       border-left: 1px solid #fff;
+      &__unit {
+        color: #fff;
+      }
       @media (max-width: 530px) {
         font-size: 13px;
       }

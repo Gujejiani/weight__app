@@ -45,7 +45,6 @@ export class DatabaseService {
             }
             this.users = users;
             this.addMealWeightActivityArrays(users); // adding  empty [] in case if firebase gives activities, weight and meals undefined;
-
             return users;
           } else {
             this.addMealWeightActivityArrays(res);
