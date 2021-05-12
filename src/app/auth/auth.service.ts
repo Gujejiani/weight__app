@@ -80,19 +80,10 @@ export class AuthService {
     token: string,
     expiresIn: number
   ) {
-    const expirationTime = new Date(new Date().getTime() + expiresIn * 1000);
-    const userCredits: LoginData = {
-      email: email,
-      localId: userId,
-      idToken: token,
-      expiresIn: expirationTime,
-    };
-
-    // this.autoLogout(expiresIn * 1000);
-    this.autoLogout(expiresIn * 1000);
+    this.autoLogout(+expiresIn * 1000);
   }
 
-  autoLogout(expirationTime) {
+  autoLogout(expirationTime: number) {
     this.timer = setTimeout(() => {
       this.logout();
     }, expirationTime);

@@ -1,11 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { DatabaseService } from 'src/app/database/database.service';
 import { User } from '../../profile/user.modal';
 import { AuthService } from '../auth.service';
-import { State } from '../store/auth.reducer';
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +13,7 @@ import { State } from '../store/auth.reducer';
 export class RegistrationComponent implements OnInit {
   @ViewChild('form') ngForm: NgForm;
   @ViewChild('password') password: ElementRef;
-  userEmail: string = 'sa';
+  userEmail: string = '';
   user: User;
   purpose: string = 'gain';
   passwordConfirmed: boolean = false;
@@ -32,8 +30,7 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private database: DatabaseService,
-    private store: Store<State>
+    private database: DatabaseService
   ) {}
 
   ngOnInit(): void {}

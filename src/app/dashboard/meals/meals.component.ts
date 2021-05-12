@@ -35,9 +35,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   ) {}
 
   ngOnInit(): void {
-    // this.mealService.restart();
     this.store.select('data').subscribe((usersData) => {
-      // this.mealService.meals = this.userService.user.meals;
       if (!usersData.user) return;
       this.meals = usersData.user.meals;
       this.username = usersData.user.name;
@@ -59,7 +57,6 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   onSubmit() {
     const meals: Meal[] = [...this.meals];
     const { meal, calories, date } = this.ngForm.value;
-    // this.meal = new Meal(name: this.ng)
     this.meal = new Meal(
       meal,
       +calories,
@@ -85,7 +82,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
     this.meal.calories = this.ngForm.value.calories;
     const index = meals.findIndex((meal) => meal.id === this.meal.id);
     meals[index] = this.meal;
-    // this.mealService.updateMeal(this.meal.id, this.meal);
+
     this.dispatchMeals(meals);
     this.resetForm();
     this.router.navigate(['dashboard']);
@@ -107,8 +104,6 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
     this.counter = this.meals.length;
   }
   saveDesiredMeal() {
-    // this.userService.user.desired.meal = this.ngForm.value.calories;
-    // this.userService.updateUser();
     const desiredMeal = this.ngForm.value.calories;
     this.store.dispatch(
       new UserActions.desiredMealAdded({ desiredMeal: desiredMeal })

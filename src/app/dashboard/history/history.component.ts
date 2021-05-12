@@ -25,8 +25,6 @@ export class HistoryComponent implements OnInit {
   @Input() showHistory: boolean;
 
   ngOnInit(): void {
-    // this.user = this.userService.user;
-
     if (!this.user) return;
 
     this.getDates(this.user.activities);

@@ -79,8 +79,6 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
     const id = this.userService.generateUniqueID(this.activities);
     this.activity = new Activity(type, +calories, date, id);
     activities.push(this.activity);
-    // this.activityService.addActivity(this.activity);
-    // this.activities = this.userService.user.activities;
     this.dispatchActivities(activities);
     this.counter = this.activities.length;
     this.ngForm.reset();
@@ -105,7 +103,6 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
       (activity) => activity.id === this.activity.id
     );
     activities[index] = this.activity;
-    // this.activityService.updateActivity(this.activity.id, this.activity);
     this.dispatchActivities(activities);
     this.resetForm();
     this.router.navigate(['/dashboard']);
@@ -117,7 +114,6 @@ export class ActivityComponent implements OnInit, CanComponentDeactivate {
       (activity) => activity.id === this.activity.id
     );
     activities.splice(deletedIndex, 1);
-    // this.activityService.deleteActivity(this.activity.id);
     this.dispatchActivities(activities);
     this.resetForm();
     this.changesSaved = true;

@@ -17,15 +17,14 @@ export class LoggedInGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return new Promise((resolve) => {
+    return new Observable((observer) => {
       this.store.pipe(take(1)).subscribe((state: AppState) => {
         if (!state.auth.user) {
-          resolve(true);
+          observer.next(true);
         } else {
-          resolve(false);
+          observer.next(false);
           this.router.navigate(['/dashboard']);
         }
-        resolve(true);
       });
     });
   }

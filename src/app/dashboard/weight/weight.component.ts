@@ -11,7 +11,7 @@ import { Weight } from './weight.modal';
 import * as UserActions from '../store/users.actions';
 
 import { DatabaseService } from 'src/app/database/database.service';
-import { ThisReceiver } from '@angular/compiler';
+
 @Component({
   selector: 'app-weight',
   templateUrl: './weight.component.html',
@@ -78,7 +78,7 @@ export class WeightComponent
       let maxId = this.userService.generateUniqueID(this.weights);
       this.weight = new Weight(maxId, date, weight);
       this.alreadyExists = false;
-      // this.userService.addWeight(this.weight); //change with store
+
       const weights: Weight[] = [...this.weights];
       weights.push(this.weight);
       this.store.dispatch(
@@ -108,7 +108,7 @@ export class WeightComponent
   onUpdate() {
     const weight = this.ngForm.value.weight;
     const date = this.ngForm.value.date;
-    // this.userService.updateWeight(this.weight?.id, this.weight);
+
     console.log('problem occurs');
     const weights: Weight[] = [...this.weights];
     console.log('problem end');

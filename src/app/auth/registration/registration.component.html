@@ -6,7 +6,7 @@
         <app-spinner [showLoading]="loading"></app-spinner>
       </div>
       <span *ngIf="userAlreadyRegistered" class="form__user-exits"
-        >User with email {{ userEmail }} is already exits</span
+        >User with email {{ userEmail }} already exits</span
       >
       <div class="form__group">
         <label for="name">Enter Name</label>
@@ -140,5 +140,3 @@
     </div>
   </form>
 </div>
-<!-- [disabled]="!form.valid" -->
-<!-- [ngClass]="{ 'form__button--invalid': !form.valid }" -->

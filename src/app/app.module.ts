@@ -14,7 +14,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedModule } from './shared/shared.module';
 import { appReducer } from './store/app.reducer';
-import { AuthInterceptorService } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
