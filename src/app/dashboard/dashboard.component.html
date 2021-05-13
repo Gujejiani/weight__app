@@ -6,8 +6,13 @@
 <div #wrapper class="wrapper" [ngClass]="{ 'wrapper--show': loggedIn }">
   <h3 class="dashboard__title">Welcome Back {{ user?.name }}</h3>
   <button class="dashboard__table" (click)="onHistoryToggle()">HISTORY</button>
-  <app-history [user]="user" [showHistory]="showUserHistory"></app-history>
+
   <div class="dashboard">
+    <app-history
+      class="dashboard__history"
+      [user]="user"
+      [ngClass]="{ 'dashboard__history--show': showUserHistory }"
+    ></app-history>
     <app-dashboard-card
       [desired]="desiredWeight"
       [current]="currentWeight"

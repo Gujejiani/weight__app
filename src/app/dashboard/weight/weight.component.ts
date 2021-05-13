@@ -132,7 +132,6 @@ export class WeightComponent
     this.router.navigate(['/dashboard']);
   }
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(this.changesSaved);
     if (this.changesSaved) {
       return true;
     }
