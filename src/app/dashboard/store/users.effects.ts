@@ -128,7 +128,7 @@ export class UserEffects {
         ofType(UsersActionTypes.STORE_USERS),
         withLatestFrom(this.store.select('data')),
         switchMap(([actionData, userData]) => {
-          // saveToLocalStorage(userData.user);
+          saveToLocalStorage(userData.user);
           return this.http.put(
             'https://weight-app-d2c84-default-rtdb.firebaseio.com/users.json?auth=' +
               userData.user.token,
