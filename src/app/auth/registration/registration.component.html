@@ -5,12 +5,13 @@
       <div class="form__spinner">
         <app-spinner [showLoading]="loading"></app-spinner>
       </div>
-      <span *ngIf="userAlreadyRegistered" class="form__user-exits"
-        >User with email {{ userEmail }} already exits</span
-      >
+      <span *ngIf="errorMessage" class="form__user-exits">{{
+        errorMessage
+      }}</span>
       <div class="form__group">
         <label for="name">Enter Name</label>
         <input
+          (click)="checkError()"
           type="text"
           placeholder="Enter Name"
           id="name"
@@ -36,6 +37,7 @@
       <div class="form__group">
         <label for="email">Enter Email</label>
         <input
+          (click)="checkError()"
           type="email"
           placeholder="Enter Email"
           id="email"
@@ -60,6 +62,7 @@
       <div class="form__group">
         <label for="password">Enter Password</label>
         <input
+          (click)="checkError()"
           type="password"
           placeholder="Enter Password"
           id="password"
@@ -85,6 +88,7 @@
       <div class="form__group">
         <label for="confirmPassword">ConfirmPassword</label>
         <input
+          (click)="checkError()"
           type="password"
           placeholder="Enter confirmPassword"
           id="confirmPassword"
@@ -118,7 +122,12 @@
         <label for="confirmPassword"
           >Do you want to gain weight or lose weight?</label
         >
-        <select [ngModel]="purpose" name="purpose" class="form__group__input">
+        <select
+          (click)="checkError()"
+          [ngModel]="purpose"
+          name="purpose"
+          class="form__group__input"
+        >
           <option value="gain">gain</option>
           <option value="lose">lose</option>
         </select>

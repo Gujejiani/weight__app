@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
-import { State } from '../auth/store/auth.reducer';
-import { DatabaseService } from '../database/database.service';
 
+import { State } from '../auth/store/auth.reducer';
+
+import * as AuthActions from '../auth/store/auth.actions';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,24 +14,16 @@ import { DatabaseService } from '../database/database.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   loggedIn: boolean = false;
   subscription: Subscription;
-  constructor(
-    private store: Store<{ auth: State }>,
-    private authService: AuthService,
-    private databaseService: DatabaseService
-  ) {}
+  constructor(private store: Store<{ auth: State }>) {}
 
   ngOnInit(): void {
-    this.store.select('auth').subscribe((auth) => {
+    this.subscription = this.store.select('auth').subscribe((auth) => {
       auth.user ? (this.loggedIn = true) : (this.loggedIn = false);
-    });
-
-    this.subscription = this.databaseService.tokenExpired.subscribe(() => {
-      this.onLogout();
     });
   }
 
   onLogout() {
-    this.authService.logout();
+    this.store.dispatch(new AuthActions.userLogOut());
   }
 
   ngOnDestroy() {

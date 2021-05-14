@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
-import { DatabaseService } from 'src/app/database/database.service';
+import { Store } from '@ngrx/store';
 import { User } from 'src/app/profile/user.modal';
-
+import { AppState } from 'src/app/store/app.reducer';
+import * as AuthActions from '../store/auth.actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,32 +15,25 @@ export class LoginComponent implements OnInit {
   invalidUser: boolean = false;
   loading: boolean = false;
   user: User;
-  constructor(
-    private router: Router,
-    private auth: AuthService,
-    private database: DatabaseService
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select('auth').subscribe((authData) => {
+      this.message = authData.errorMessage;
+      this.loading = authData.loading;
+    });
+  }
   onSubmit() {
-    this.loading = true;
     const { email, password } = this.formData.value.form;
 
-    this.auth.login(email, password).subscribe(
-      (resData) => {
-        this.router.navigate(['dashboard']);
-        this.loading = false;
-        this.database.getDataFromFirebase(resData.idToken, email);
-      },
-      (errorMessage) => {
-        this.invalidUser = true;
-        this.message = errorMessage;
-        this.loading = false;
-      }
+    this.store.dispatch(
+      new AuthActions.LoginStart({ email: email, password: password })
     );
   }
 
   onClick() {
-    this.message = '';
+    if (this.message) {
+      this.store.dispatch(new AuthActions.clearError());
+    }
   }
 }

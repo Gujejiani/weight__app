@@ -59,6 +59,10 @@ export class userRegistered implements Action {
   readonly type = ActionTypes.USER_REGISTERED;
   constructor(public payload: { user: User }) {}
 }
+
+export class storeUsers implements Action {
+  readonly type = ActionTypes.STORE_USERS;
+}
 export type UsersAction =
   | fetchingUserAndUsers
   | updateUser
@@ -71,4 +75,5 @@ export type UsersAction =
   | LoggedOut
   | autoLogin
   | fetchingOnlyUsers
-  | userRegistered;
+  | userRegistered
+  | storeUsers;

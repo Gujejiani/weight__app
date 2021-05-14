@@ -14,6 +14,9 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedModule } from './shared/shared.module';
 import { appReducer } from './store/app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './auth/store/auth.effects';
+import { UserEffects } from './dashboard/store/users.effects';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { appReducer } from './store/app.reducer';
     FormsModule,
     HttpClientModule,
     StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([AuthEffects, UserEffects]),
     environment.production ? [] : StoreDevtoolsModule.instrument(),
     SharedModule,
   ],

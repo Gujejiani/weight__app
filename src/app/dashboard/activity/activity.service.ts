@@ -1,5 +1,4 @@
 import { Store } from '@ngrx/store';
-import { DatabaseService } from 'src/app/database/database.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Activity } from './activity.modal';
 import * as UserActions from '../store/users.actions';
@@ -7,10 +6,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ActivityService {
-  constructor(
-    private store: Store<AppState>,
-    private database: DatabaseService
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
   addActivity(activityArr: Activity[], newActivity: Activity) {
     const updatedActivities: Activity[] = [...activityArr];
@@ -41,7 +37,7 @@ export class ActivityService {
   }
   updateState() {
     this.store.dispatch(new UserActions.updateUser());
-    this.database.updateUsers();
+    this.store.dispatch(new UserActions.storeUsers());
   }
 
   addDesiredActivity(desiredActivity: number) {

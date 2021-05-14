@@ -26,6 +26,7 @@ export function usersReducer(state: State = initialState, action: UsersAction) {
       return {
         ...state,
         users: usersCopy,
+        user: action.payload.user,
       };
     case ActionTypes.AUTO_LOGIN:
       return {

@@ -1,5 +1,4 @@
 import { Store } from '@ngrx/store';
-import { DatabaseService } from 'src/app/database/database.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { Meal } from './Meal.modal';
 import * as UserActions from '../store/users.actions';
@@ -7,10 +6,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class MealService {
-  constructor(
-    private store: Store<AppState>,
-    private database: DatabaseService
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
   addMeal(MealArr: Meal[], newMeal: Meal) {
     const updatedMeals: Meal[] = [...MealArr];
@@ -37,7 +33,7 @@ export class MealService {
   }
   updateState() {
     this.store.dispatch(new UserActions.updateUser());
-    this.database.updateUsers();
+    this.store.dispatch(new UserActions.storeUsers());
   }
 
   addDesiredMeal(desiredMeal: number) {

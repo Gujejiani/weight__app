@@ -1,24 +1,32 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { DatabaseService } from 'src/app/database/database.service';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/store/app.reducer';
 import { User } from '../../profile/user.modal';
-import { AuthService } from '../auth.service';
+import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
   @ViewChild('form') ngForm: NgForm;
   @ViewChild('password') password: ElementRef;
   userEmail: string = '';
   user: User;
   purpose: string = 'gain';
   passwordConfirmed: boolean = false;
-  userAlreadyRegistered: boolean = false;
+  errorMessage: string = '';
   loading: boolean = false;
+  storeSubscription: Subscription;
   confirmingPassword(e) {
     if (e.target.value === this.ngForm.value.formData.password) {
       this.passwordConfirmed = true;
@@ -27,13 +35,14 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  constructor(
-    private router: Router,
-    private auth: AuthService,
-    private database: DatabaseService
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.storeSubscription = this.store.select('auth').subscribe((authData) => {
+      this.errorMessage = authData.errorMessage;
+      this.loading = authData.loading;
+    });
+  }
   onSubmit() {
     this.loading = true;
     console.log(this.ngForm.value.formData);
@@ -62,26 +71,16 @@ export class RegistrationComponent implements OnInit {
         form.purpose,
         false
       );
-      this.auth.signUp(this.user).subscribe(
-        // getting all registered users
-        (resData) => {
-          this.userAlreadyRegistered = false;
-          this.router.navigate(['/login']);
-          this.loading = false;
-          this.database.getDataFromFirebase(
-            resData.idToken,
-            resData.email,
-            true,
-            this.user
-          );
-          this.database.updateUsers(); //sending registered user
-        },
-        (err) => {
-          this.userAlreadyRegistered = true;
-          this.userEmail = form.email;
-          this.loading = false;
-        }
-      );
+
+      this.store.dispatch(new AuthActions.registrationStart(this.user));
     }
+  }
+  checkError() {
+    if (this.errorMessage) {
+      this.store.dispatch(new AuthActions.clearError());
+    }
+  }
+  ngOnDestroy() {
+    this.storeSubscription.unsubscribe();
   }
 }
