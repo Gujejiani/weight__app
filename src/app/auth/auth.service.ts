@@ -1,4 +1,3 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -16,7 +15,7 @@ export interface LoginData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient, private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) {}
   timer: any;
 
   autoLogout(expirationTime: number) {
