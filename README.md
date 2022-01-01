@@ -27,3 +27,4 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 you can see project by Clicking [HERE](https://gujejiani.github.io/weight__app/)
+![image](https://user-images.githubusercontent.com/67228459/147849242-f4499a64-3947-4630-92a6-28b1f7c546ac.png)
